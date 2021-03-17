@@ -24,6 +24,25 @@ header {
   /* background-color: aliceblue; */
 }
 
+.question {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.point p {
+  font-size: 1rem;
+  text-align: center;
+  color: rgb(170 170 170);
+}
+
+.point span {
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: rgb(170 170 170);
+}
+
 .btns {
   width: 7rem;
   border: none;
@@ -61,10 +80,6 @@ header {
   margin: 2rem auto;
 }
 
-.quiz__heading {
-  display: none;
-}
-
 .heading__text {
   margin-bottom: 2rem;
   text-align: center;
@@ -72,14 +87,7 @@ header {
   font-weight: 300;
 }
 
-.quiz__heading-text {
-  margin-bottom: 2rem;
-  text-align: center;
-  font-weight: 300;
-}
-
 .quiz-form__question {
-  margin-bottom: 1.5rem;
   font-size: 1.2rem;
 }
 

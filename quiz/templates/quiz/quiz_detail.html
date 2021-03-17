@@ -16,31 +16,39 @@
         <h1 class="heading__text">{{object.name}}</h1>
     </div>
 
-        <form class="quiz-form">
+    <form class="quiz-form">
 
-            {% for question in object.question_set.all %}
+        {% for question in object.question_set.all %}
 
-            <div class="quiz-form__quiz">
-
+        <div class="quiz-form__quiz">
+            <div class="question">
                 <p class="quiz-form__question">{{question.question}}</p>
-
-                {% for choice in question.choice_set.all %}
-                <label class="quiz-form__ans" for="{{question.id}}_choice{{ forloop.counter }}">
-                    <input type="radio" {% if question.answer.answer == forloop.counter %} checked {% endif %}
-                        id="{{question.id}}_choice{{ forloop.counter }}" value="{{ choice.id }}"
-                        name='{{question.id}}_radio_option' />
-                    <span class="design"></span>
-                    <span class="text">{{choice.choice}}</span>
-                </label>
-
-                {% endfor %}
-
+                <div class="point">
+                    <p>{{question.point}}</p>
+                    {% if question.point == 1 %}
+                        <span>point</span>
+                    {% else %}
+                        <span>points</span>
+                    {% endif %}
+                </div>
             </div>
+
+            {% for choice in question.choice_set.all %}
+
+            <label class="quiz-form__ans" for="{{question.id}}_choice{{ forloop.counter }}">
+                <input type="radio" {% if question.answer.answer == forloop.counter %} checked {% endif %}
+                    id="{{question.id}}_choice{{ forloop.counter }}" value="{{ choice.id }}"
+                    name='{{question.id}}_radio_option' />
+                <span class="design"></span>
+                <span class="text">{{choice.choice}}</span>
+            </label>
 
             {% endfor %}
 
-            {% comment %} <input class="submit" type="submit" value="Submit" /> {% endcomment %}
-        </form>
+        </div>
 
-    </div>
+        {% endfor %}
+
+    </form>
+
 </div>

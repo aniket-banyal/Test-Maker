@@ -19,6 +19,7 @@ class Quiz(models.Model):
 class Question(models.Model):
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
     question = models.CharField(max_length=500)
+    point = models.IntegerField()
 
     def __str__(self):
         return str(self.question)

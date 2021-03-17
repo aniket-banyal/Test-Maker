@@ -47,7 +47,7 @@ def newQuiz(request):
         for i in range(1, len(data)):
             try:
                 question = Question.objects.create(
-                    question=data[f'q_{i}'], quiz=quiz)
+                    question=data[f'q_{i}'], quiz=quiz, point=data[f'{i}_point'])
 
                 # print(question.question)
 
@@ -66,7 +66,8 @@ def newQuiz(request):
 
         return redirect('quiz-list')
 
-    return render(request, 'quiz/new_quiz.html')
+    defaultNumberOfChoices = range(1, 5)
+    return render(request, 'quiz/new_quiz.html', {'defaultNumberOfChoices': defaultNumberOfChoices})
 
 
 def updateQuiz(request, pk):
@@ -83,13 +84,14 @@ def updateQuiz(request, pk):
         quiz = Quiz.objects.get(id=pk)
         quiz.name = data['quiz']
         quiz.save()
-        print(quiz)
+        # print(quiz)
 
         i = 1
         for question in quiz.question_set.all():
             q_id = f'q_{question.id}'
             # print(q_id)
             question.question = data[f'q_{i}']
+            question.point = data[f'{i}_point']
             question.save()
             # print(question)
             i += 1
@@ -101,16 +103,16 @@ def updateQuiz(request, pk):
                 j += 1
 
             answer = question.answer
-            print(answer)
+            # print(answer)
             answer.answer = data[f'{question.id}_radio_option']
             answer.save()
-            print(answer)
+            # print(answer)
 
         for k in range(i, len(data)):
             try:
                 question = Question.objects.create(
-                    question=data[f'q_{k}'], quiz=quiz)
-                print(question)
+                    question=data[f'q_{k}'], quiz=quiz, point=data[f'{k}_point'])
+                # print(question)
                 # print('here')
                 # print(k)
 
@@ -118,7 +120,7 @@ def updateQuiz(request, pk):
                     try:
                         choice = Choice.objects.create(
                             choice=data[f'{k}_option{j}'], question=question)
-                        print(choice)
+                        # print(choice)
                     except Exception as e:
                         break
 
@@ -170,9 +172,10 @@ def quizResult(request, pk):
         total = 0
         for answer in taker.answer_set.all():
             if answer.quiz == quiz:
+                point = answer.real_answer.question.point
                 if answer.real_answer.answer == answer.answer:
-                    score += 1
-                total += 1
+                    score += point
+                total += point
 
         takers_list[i]['score'] = f'{score}/{total}'
         i += 1

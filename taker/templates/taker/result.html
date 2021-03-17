@@ -22,8 +22,17 @@
             {% for question in quiz.question_set.all %}
 
             <div class="quiz-form__quiz">
-
-                <p class="quiz-form__question">{{question.question}}</p>
+                <div class="question">
+                    <p class="quiz-form__question">{{question.question}}</p>
+                    <div class="point">
+                        <p>{{question.point}}</p>
+                        {% if question.point == 1 %}
+                            <span>point</span>
+                        {% else %}
+                            <span>points</span>
+                        {% endif %}
+                    </div>
+                </div>
 
                 {% for choice in question.choice_set.all %}
                 {% for answer in user.answer_set.all %}

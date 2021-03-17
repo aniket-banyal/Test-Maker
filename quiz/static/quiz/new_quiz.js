@@ -17,15 +17,15 @@ addBtn.onclick = () => {
     label.setAttribute('for', `q_${q_number}`)
     label.innerHTML = `${q_number}.`
 
-    inp = document.createElement('input')
-    inp.type = 'text'
-    inp.name = `q_${q_number}`
-    inp.id = `q_${q_number}`
-    inp.classList.add('quiz-form__question')
-    inp.required = true
+    q_inp = document.createElement('input')
+    q_inp.type = 'text'
+    q_inp.name = `q_${q_number}`
+    q_inp.id = `q_${q_number}`
+    q_inp.classList.add('quiz-form__question')
+    q_inp.required = true
 
     quiz.appendChild(label)
-    quiz.appendChild(inp)
+    quiz.appendChild(q_inp)
 
     for (let i = 1; i < 4 + 1; i++) {
         div = document.createElement('div')
@@ -53,9 +53,31 @@ addBtn.onclick = () => {
         quiz.appendChild(div)
     }
 
+    footer = document.createElement('div')
+    footer.classList.add('footer')
+
+    point = document.createElement('div')
+    point.classList.add('point')
+
+    inp = document.createElement('input')
+    inp.type = 'number'
+    inp.name = `${q_number}_point`
+    inp.value = 1
+    inp.required = true
+    inp.min = 0
+
+    span = document.createElement('span')
+    span.innerHTML = 'points'
+
+    point.appendChild(inp)
+    point.appendChild(span)
+    footer.appendChild(point)
+    quiz.appendChild(footer)
+
     form.appendChild(quiz)
 
     q_number++
 
+    q_inp.focus()
     quiz.scrollIntoView();
 }
