@@ -24,7 +24,7 @@
             <label for="q_1">1.</label>
             <input type="text" name="q_1" id="q_1" class="quiz-form__question" required>
 
-            {%for i in '1234' %}
+            {%for i in defaultNumberOfChoices %}
 
             <div class="quiz-form__ans">
                 <input type="radio" name='1_radio_option' value='{{i}}' required>
@@ -34,6 +34,12 @@
 
             {% endfor %}
 
+            <div class="footer">
+                <div class="point">
+                    <input type="number" name="1_point" value=1 min=0 required>
+                    <span>points</span>
+                </div>
+            </div>
         </div>
         <button type='submit' id='submit' hidden></button>
     </form>

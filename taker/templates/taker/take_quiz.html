@@ -15,11 +15,6 @@
     </div>
 
     <div class="quiz">
-        <div class="quiz__heading">
-            <h2 class="quiz__heading-text">
-                Your are <span class="result"></span> right.
-            </h2>
-        </div>
 
         <form action="{% url 'submit-quiz' quiz.id user_id%}" method='POST' class="quiz-form">
             <button type='submit' id='hiddenSubmit' hidden></button>
@@ -28,8 +23,17 @@
             {% for question in quiz.question_set.all %}
 
             <div class="quiz-form__quiz">
-
-                <p class="quiz-form__question">{{question.question}}</p>
+                <div class="question">
+                    <p class="quiz-form__question">{{question.question}}</p>
+                    <div class="point">
+                        <p>{{question.point}}</p>
+                        {% if question.point == 1 %}
+                            <span>point</span>
+                        {% else %}
+                            <span>points</span>
+                        {% endif %}
+                    </div>
+                </div>
 
                 {% for choice in question.choice_set.all %}
                 <label class="quiz-form__ans" for="{{question.id}}_choice{{ forloop.counter }}">

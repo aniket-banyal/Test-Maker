@@ -29,20 +29,25 @@
             {% for choice in question.choice_set.all %}
 
             <div class="quiz-form__ans">
-                <input type="radio" required name='{{question.id}}_radio_option' value='{{forloop.counter}}'        
-                 {% if question.answer.answer == forloop.counter %} checked {% endif %}>
-                <span class="design"></span>
-                <input type="text" required name="{{question.id}}_option{{forloop.counter}}" value={{choice.choice}}>
+                <input type="radio" required name='{{question.id}}_radio_option' value='{{forloop.counter}}' 
+                {% if question.answer.answer == forloop.counter %} checked {% endif %}>
+            <span class="design"></span>
+            <input type="text" required name="{{question.id}}_option{{forloop.counter}}" value='{{choice.choice}}'>
             </div>
 
             {% endfor %}
 
+            <div class="footer">
+                <div class="point">
+                    <input type="number" name="{{forloop.counter}}_point" value='{{question.point}}' min=0 required>
+                    <span>points</span>
+                </div>
+            </div>
         </div>
+
         {% endfor %}
         <button type='submit' id='submit' hidden></button>
     </form>
 </div>
-</div>
-
 
 <script src="{% static 'quiz/quiz_update.js' %}"></script>

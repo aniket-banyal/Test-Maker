@@ -79,9 +79,10 @@ def result(request, pk, user_id):
     total = 0
     for answer in user.answer_set.all():
         if answer.quiz == quiz:
+            point = answer.real_answer.question.point
             if answer.real_answer.answer == answer.answer:
-                score += 1
-            total += 1
+                score += point
+            total += point
 
     score = f'{score} / {total}'
 

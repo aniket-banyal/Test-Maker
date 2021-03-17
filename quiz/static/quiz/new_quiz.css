@@ -34,35 +34,10 @@ input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:foc
     caret-color: white;
 }
 
-.btns {
-    width: 9rem;
-    border: none;
-    border-radius: 100vh;
-    padding: 0.8rem 1.5rem;
-    background: #117eeb;
-    color: #fff;
-    font-family: inherit;
-    text-transform: uppercase;
-    font-size: 1rem;
-    font-weight: 300;
-    display: block;
-    margin: 1rem auto 2rem auto;
-    cursor: pointer;
-    transition: transform 200ms ease, box-shadow 200ms ease;
-}
-
-.btns:focus {
-    outline: none;
-}
-
-.btns:hover {
-    transform: translateY(-2px) scale(1.001);
-    box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.35);
-}
-
-.btns:active {
-    transform: translateY(0) scale(1);
-    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+input.heading__text:-webkit-autofill, input.heading__text:-webkit-autofill:hover, input.heading__text:-webkit-autofill:focus, input.heading__text:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px #252c4a inset !important;
+    -webkit-text-fill-color: white;
+    caret-color: white;
 }
 
 .container {
@@ -91,6 +66,33 @@ input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:foc
     font-weight: 300;
 }
 
+.footer {
+    border-top: 1px solid rgb(74, 70, 70);
+    padding-top: 1rem;
+    margin-top: 2rem;
+    color: rgb(170 170 170);
+}
+
+.point {
+    margin-left: auto;
+}
+
+.point input {
+    background-color: transparent;
+    width: 3rem;
+    outline: none;
+    border: none;
+    border-bottom: 1px solid gray;
+    font-size: 1.2rem;
+    text-align: center;
+    color: rgb(170 170 170);
+}
+
+.point span {
+    font-size: 0.9rem;
+    font-weight: 400;
+}
+
 .quiz-form__question {
     margin-bottom: 1.5rem;
     font-size: 1.2rem;
@@ -110,7 +112,7 @@ input[type='text'] {
     font-size: 1.1rem;
 }
 
-input[type='text']:focus {
+input[type='text']:focus, .point input:focus {
     border-color: #2489c5;
     border-width: 1px;
 }
@@ -206,4 +208,35 @@ input[type=radio]:checked+.design::before {
 
 input[type=radio]:hover+.design, input[type=radio]:focus+.design {
     border: 2px solid #52a9ff;
+}
+
+.btns {
+    width: 9rem;
+    border: none;
+    border-radius: 100vh;
+    padding: 0.8rem 1.5rem;
+    background: #117eeb;
+    color: #fff;
+    font-family: inherit;
+    text-transform: uppercase;
+    font-size: 1rem;
+    font-weight: 300;
+    display: block;
+    margin: 1rem auto 2rem auto;
+    cursor: pointer;
+    transition: transform 200ms ease, box-shadow 200ms ease;
+}
+
+.btns:focus {
+    outline: none;
+}
+
+.btns:hover {
+    transform: translateY(-2px) scale(1.001);
+    box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.35);
+}
+
+.btns:active {
+    transform: translateY(0) scale(1);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
 }
