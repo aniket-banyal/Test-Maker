@@ -1,0 +1,46 @@
+<!-- Copied from  - https://codepen.io/hrsshainik/pen/rNxLKgv -->
+{% load static %}
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&display=swap">
+
+<link rel="stylesheet" href="{% static 'quiz/quiz_detail.css' %}">
+
+<header>
+    <form action="{% url 'quiz-update' object.id %}" method="GET">
+        <button type='submit' id='edit' class="btns"> Edit </button>
+    </form>
+</header>
+
+<div class="container">
+    <div class="heading">
+        <h1 class="heading__text">{{object.name}}</h1>
+    </div>
+
+        <form class="quiz-form">
+
+            {% for question in object.question_set.all %}
+
+            <div class="quiz-form__quiz">
+
+                <p class="quiz-form__question">{{question.question}}</p>
+
+                {% for choice in question.choice_set.all %}
+                <label class="quiz-form__ans" for="{{question.id}}_choice{{ forloop.counter }}">
+                    <input type="radio" {% if question.answer.answer == forloop.counter %} checked {% endif %}
+                        id="{{question.id}}_choice{{ forloop.counter }}" value="{{ choice.id }}"
+                        name='{{question.id}}_radio_option' />
+                    <span class="design"></span>
+                    <span class="text">{{choice.choice}}</span>
+                </label>
+
+                {% endfor %}
+
+            </div>
+
+            {% endfor %}
+
+            {% comment %} <input class="submit" type="submit" value="Submit" /> {% endcomment %}
+        </form>
+
+    </div>
+</div>

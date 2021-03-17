@@ -1,0 +1,44 @@
+<!-- Copied from  - https://codepen.io/hrsshainik/pen/rNxLKgv -->
+{% load static %}
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&display=swap">
+
+<link rel="stylesheet" href="{% static 'quiz/new_quiz.css' %}">
+
+
+<header>
+    <button id='add' class="btns"> Add New </button>
+    <button id='save' class="btns"> Save </button>
+</header>
+
+<div class="container">
+
+    <form action='{% url "new-quiz" %}' method='post' class="quiz-form">
+        {% csrf_token %}
+
+        <div class="heading">
+            <input type='text' class="heading__text" placeholder="Quiz Name" name='quiz' required autofocus>
+        </div>
+
+        <div class="quiz-form__quiz">
+            <label for="q_1">1.</label>
+            <input type="text" name="q_1" id="q_1" class="quiz-form__question" required>
+
+            {%for i in '1234' %}
+
+            <div class="quiz-form__ans">
+                <input type="radio" name='1_radio_option' value='{{i}}' required>
+                <span class="design"></span>
+                <input type="text" name="1_option{{i}}" placeholder="Option {{i}}" required>
+            </div>
+
+            {% endfor %}
+
+        </div>
+        <button type='submit' id='submit' hidden></button>
+    </form>
+</div>
+</div>
+
+
+<script src="{% static 'quiz/new_quiz.js' %}"></script>

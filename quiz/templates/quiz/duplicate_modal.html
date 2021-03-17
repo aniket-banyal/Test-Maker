@@ -1,0 +1,26 @@
+<div class="modal fade" id="duplicateModal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">New Quiz</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id='duplicate_form' method="POST">
+                    {%csrf_token%}
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Name of duplicated quiz:</label>
+                        <input type="text" class="form-control" name='quiz' required autofocus>
+                        <button id='submit' type='submit' hidden></button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id='duplicateDone' type="button" class="btn btn-primary">Done</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>

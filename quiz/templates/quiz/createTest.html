@@ -1,0 +1,31 @@
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Test</title>
+    <link rel="stylesheet" href="{% static 'create_test/createTest.css' %}">
+
+</head>
+
+
+<body>
+    <header>
+        <button id='add'> Add New </button>
+        <button id='save'> Save </button>
+    </header>
+    <main>
+        <form action='{% url "create" %}' method='post'>
+            {% csrf_token %}
+            <label for="test">Test Name</label>
+            <input type="text" name="test" id="test">
+            {%include 'create_test/question.html'%}
+        </form>
+
+    </main>
+
+
+</body>
+
+<script src="{% static 'create_test/createTest.js' %}"></script>
