@@ -88,14 +88,25 @@ function createQuestion(q_inp_value = null, r_inps_checked = null, o_inps_value 
     point.appendChild(points_inp)
     point.appendChild(span)
 
+    div = document.createElement('div')
+    div.classList.add('footerBtns')
+
     duplicateBtn = document.createElement('button')
     duplicateBtn.type = 'button'
     duplicateBtn.classList.add('duplicateBtn')
     duplicateBtn.innerHTML = 'Duplicate'
     duplicateBtn.addEventListener('click', duplicateQuestion)
 
+    deleteBtn = document.createElement('button')
+    deleteBtn.type = 'button'
+    deleteBtn.classList.add('deleteBtn')
+    deleteBtn.innerHTML = 'Delete'
+    deleteBtn.addEventListener('click', deleteQuestion)
+
+    div.appendChild(duplicateBtn)
+    div.appendChild(deleteBtn)
     footer.appendChild(point)
-    footer.appendChild(duplicateBtn)
+    footer.appendChild(div)
     question.appendChild(footer)
 
     form.appendChild(question)
@@ -112,7 +123,7 @@ duplicateBtns = document.querySelectorAll('.duplicateBtn')
 duplicateBtns.forEach(duplicateBtn => duplicateBtn.addEventListener('click', duplicateQuestion))
 
 function duplicateQuestion(e) {
-    const parentQuestion = e.target.parentElement.parentElement
+    const parentQuestion = e.target.parentElement.parentElement.parentElement
     const q_inp_value = parentQuestion.querySelector('.quiz-form__question').value
     let r_inps_checked = []
     let o_inps_value = []
@@ -126,6 +137,42 @@ function duplicateQuestion(e) {
     points_inp_value = parentQuestion.querySelector('.footer input[type="number"]').value
 
     createQuestion(q_inp_value, r_inps_checked, o_inps_value, points_inp_value)
+}
+
+//delete question
+deleteBtns = document.querySelectorAll('.deleteBtn')
+deleteBtns.forEach(deleteBtn => deleteBtn.addEventListener('click', deleteQuestion))
+
+function deleteQuestion(e) {
+    const parentQuestion = e.target.parentElement.parentElement.parentElement
+    parentQuestion.remove()
+
+    q_number = 1
+    questions = document.querySelectorAll('.quiz-form__quiz')
+    for (question of questions) {
+        label = question.querySelector('label')
+        label.setAttribute('for', `q_${q_number}`)
+        label.innerHTML = `${q_number}.`
+
+        q_inp = question.querySelector('.quiz-form__question')
+        q_inp.name = `q_${q_number}`
+        q_inp.id = `q_${q_number}`
+
+        for (r_inp of question.querySelectorAll('.quiz-form__ans input[type="radio"]')) {
+            r_inp.name = `${q_number}_radio_option`
+        }
+
+        i = 1
+        for (o_inp of question.querySelectorAll('.quiz-form__ans input[type="text"]')) {
+            o_inp.name = `${q_number}_option${i}`
+            i++
+        }
+
+        points_inp = question.querySelector('.footer input[type="number"]')
+        points_inp.name = `${q_number}_point`
+
+        q_number++
+    }
 }
 
 

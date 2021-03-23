@@ -76,7 +76,16 @@ input.heading__text:-webkit-autofill, input.heading__text:-webkit-autofill:hover
     color: rgb(170 170 170);
 }
 
-.duplicateBtn {
+.footerBtns {
+    display: flex;
+    justify-content: space-between;
+}
+
+.footerBtns button:not(:last-child) {
+    margin-right: 1rem;
+}
+
+.duplicateBtn, .deleteBtn {
     width: 5rem;
     border: none;
     padding: 0.4rem;
@@ -240,16 +249,16 @@ input[type=radio]:hover+.design, input[type=radio]:focus+.design {
     transition: transform 200ms ease, box-shadow 200ms ease;
 }
 
-.btns:focus, .duplicateBtn:focus {
+.btns:focus, .duplicateBtn:focus, .deleteBtn:focus {
     outline: none;
 }
 
-.btns:hover, .duplicateBtn:hover {
+.btns:hover, .duplicateBtn:hover, .deleteBtn:hover {
     transform: translateY(-2px) scale(1.001);
     box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.35);
 }
 
-.btns:active, .duplicateBtn:active {
+.btns:active, .duplicateBtn:active, .deleteBtn:active {
     transform: translateY(0) scale(1);
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
 }
