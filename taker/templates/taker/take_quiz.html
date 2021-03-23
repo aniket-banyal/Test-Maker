@@ -1,13 +1,17 @@
-<!-- Copied from  - https://codepen.io/hrsshainik/pen/rNxLKgv -->
 {% load static %}
+<!-- {% load taker_extras %} -->
 
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&display=swap">
 
-<link rel="stylesheet" href="{% static 'quiz/quiz_detail.css' %}">
+<link rel="stylesheet" href="{% static 'taker/take_quiz.css' %}">
 
 <header>
-    <button type='submit' id='submit' class="btns"> Submit </button>
+    <button id='timeLimit' data-endDateTime='{{endDateTime}}'></button>
 </header>
+
+<footer>
+    <button type='submit' id='submit' class="btns"> Submit </button>
+</footer>
 
 <div class="container">
     <div class="heading">
@@ -28,9 +32,9 @@
                     <div class="point">
                         <p>{{question.point}}</p>
                         {% if question.point == 1 %}
-                            <span>point</span>
+                        <span>point</span>
                         {% else %}
-                            <span>points</span>
+                        <span>points</span>
                         {% endif %}
                     </div>
                 </div>

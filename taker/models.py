@@ -16,5 +16,4 @@ class Answer(models.Model):
     user = models.ForeignKey(Taker, on_delete=models.CASCADE)
     quiz = models.ForeignKey(
         quiz_models.Quiz, on_delete=models.CASCADE)
-
-    answer = models.IntegerField()
+    answer = models.IntegerField(null=True)

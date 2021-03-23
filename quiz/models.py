@@ -4,12 +4,14 @@ from django.urls import reverse
 
 
 class Quiz(models.Model):
-    creator = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                on_delete=models.CASCADE)
+    maker = models.ForeignKey(settings.AUTH_USER_MODEL,
+                              on_delete=models.CASCADE)
     name = models.CharField(max_length=500)
+    startDateTime = models.DateTimeField(null=True)
+    timeLimit = models.IntegerField(null=True)
 
     def __str__(self):
-        return f'{self.name} by {self.creator}'
+        return f'{self.name} by {self.maker}'
 
     def get_absolute_url(self):
         return reverse("quiz-detail", kwargs={"pk": self.pk})

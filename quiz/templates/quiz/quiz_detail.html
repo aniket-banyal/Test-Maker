@@ -5,11 +5,11 @@
 
 <link rel="stylesheet" href="{% static 'quiz/quiz_detail.css' %}">
 
-<header>
+<footer>
     <form action="{% url 'quiz-update' object.id %}" method="GET">
         <button type='submit' id='edit' class="btns"> Edit </button>
     </form>
-</header>
+</footer>
 
 <div class="container">
     <div class="heading">

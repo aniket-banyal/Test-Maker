@@ -50,7 +50,8 @@
                     {% if answer.answer != answer.real_answer.answer %}
                     real-correct 
                     {% endif %}
-                {% endif %}" for="{{question.id}}_choice{{ forloop.counter }}">
+                {% endif %}"
+                for="{{question.id}}_choice{{ forloop.counter }}">
                     <input type="radio" {% if answer.answer == forloop.parentloop.counter %} checked {% endif %} readonly>
                     <span class="design"></span>
                     <span class="text">{{choice.choice}}</span>

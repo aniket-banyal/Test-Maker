@@ -1,0 +1,101 @@
+.modal {
+    overflow-y: auto;
+}
+
+.modal-open {
+    overflow: auto!important;
+    padding-right: 0px !important;
+}
+
+.modal-body input[type='checkbox'] {
+    outline: none;
+}
+
+.timer-checkbox {
+    display: flex;
+    align-items: center;
+}
+
+.timer-checkbox p {
+    margin-bottom: 0;
+    margin-right: 1.5rem;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 24px;
+}
+
+.switch input[type='checkbox'] {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #6E6E6E;
+    transition: 0.4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 4px;
+    top: 3px;
+    background-color: white;
+    transition: 0.4s;
+}
+
+.switch input[type='checkbox']:checked+.slider {
+    background-color: #1849AB;
+}
+
+.switch input[type='checkbox']:focus+.slider {
+    outline: none;
+}
+
+.switch input[type='checkbox']:checked+.slider:before {
+    transform: translateX(34px);
+}
+
+.slider.round {
+    border-radius: 28px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+.timer {
+    display: flex;
+    flex-direction: column;
+}
+
+.timer input {
+    background: transparent;
+    border: none;
+    outline: none;
+    border-bottom: 1px solid gray;
+    transition: border 0.3s ease;
+    /* color: white; */
+}
+
+.timer input:focus {
+    border-color: #000000;
+    border-width: 1px;
+}
+
+#saveSettings:disabled {
+    cursor: not-allowed;
+    background: gray;
+}
