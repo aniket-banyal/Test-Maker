@@ -114,23 +114,30 @@ def _updateQuiz(data, quiz):
     quiz.save()
 
     i = 1
+    more_questions_left = True
     for question in quiz.question_set.all():
-        question.question = data[f'q_{i}']
-        question.point = data[f'{i}_point']
-        question.save()
+        try:
+            question.question = data[f'q_{i}']
+            question.point = data[f'{i}_point']
+            question.save()
+
+            j = 1
+            for choice in question.choice_set.all():
+                choice.choice = data[f'{i}_option{j}']
+                choice.save()
+                j += 1
+
+            answer = question.answer
+            answer.answer = data[f'{i}_radio_option']
+            answer.save()
+        except KeyError:
+            question.delete()
+            more_questions_left = False
+
         i += 1
 
-        j = 1
-        for choice in question.choice_set.all():
-            choice.choice = data[f'{question.id}_option{j}']
-            choice.save()
-            j += 1
-
-        answer = question.answer
-        answer.answer = data[f'{question.id}_radio_option']
-        answer.save()
-
-    createQuestions(data, quiz, i)
+    if more_questions_left:
+        createQuestions(data, quiz, i)
 
 
 @login_required
