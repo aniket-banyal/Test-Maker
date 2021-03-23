@@ -3,6 +3,16 @@ addBtn = document.querySelector('#add')
 submitBtn = document.querySelector('#submit')
 form = document.querySelector('form')
 
+//to prevent form from submitting when enter is pressed in settings modal
+form.addEventListener('keydown', (e) => {
+    if (e.keyCode == 13) {
+        if (e.target.nodeName == 'INPUT') {
+            e.preventDefault()
+            return false
+        }
+    }
+})
+
 let q_number = document.querySelectorAll('.quiz-form__quiz').length + 1
 
 saveBtn.onclick = () => {
@@ -33,7 +43,6 @@ addBtn.onclick = () => {
 
         r_inp = document.createElement('input')
         r_inp.type = 'radio'
-        // r_inp.id = `${q_number}_choice_${i}`
         r_inp.name = `${q_number}_radio_option`
         r_inp.value = i
         r_inp.required = true
@@ -65,7 +74,6 @@ addBtn.onclick = () => {
     inp.value = 1
     inp.required = true
     inp.min = 0
-    inp.onchange = pointChange
 
     span = document.createElement('span')
     span.innerHTML = 'points'
@@ -83,14 +91,73 @@ addBtn.onclick = () => {
     quiz.scrollIntoView();
 }
 
-pointInput = document.querySelector("input[type='number']")
+//to make autofocus work in settings modal
+$('.modal').on('shown.bs.modal', function () {
+    $(this).find('[autofocus]').focus();
+});
 
-pointInput.onchange = pointChange
+//settings
+const timerEnabled = document.querySelector("input[name='timer-enabled']")
+const timerDiv = document.querySelector('.timer')
+const timerDurationInp = document.querySelector(".timer input[type='number']")
+const timerStartDateInp = document.querySelector(".timer input[type='date']")
+const timerStartTimeInp = document.querySelector(".timer input[type='time']")
+const inputs = [...timerDiv.querySelectorAll('input')]
 
-function pointChange(e) {
-    inp = e.target
-    if (inp.value == 1)
-        inp.parentElement.querySelector('span').innerHTML = 'point'
-    else
-        inp.parentElement.querySelector('span').innerHTML = 'points'
+timerEnabled.addEventListener('change', e => {
+    if (e.target.checked) {
+        timerDiv.style.display = 'flex'
+        timerDurationInp.focus()
+        saveSettingsBtn.disabled = true
+    }
+    else {
+        timerDiv.style.display = 'none'
+        saveSettingsBtn.disabled = false
+    }
+    validate()
+})
+
+//only enable save button when all inputs have some value
+function validate() {
+    let isIncomplete = inputs.some(input => !input.value);
+    saveSettingsBtn.disabled = isIncomplete;
 }
+
+timerDiv.addEventListener('input', validate);
+
+//save and cancel button in settings 
+const saveSettingsBtn = document.querySelector('#saveSettings')
+const cancelSettingsBtn = document.querySelector('#cancelSettings')
+let checked = timerEnabled.checked
+let timerDuration = timerDurationInp.value
+let timerStartDate = timerStartDateInp.value
+let timerStartTime = timerStartTimeInp.value
+
+cancelSettingsBtn.addEventListener('click', () => {
+    checked ? timerDiv.style.display = 'flex' : timerDiv.style.display = 'none'
+    timerEnabled.checked = checked
+    timerDurationInp.value = timerDuration
+    timerStartDateInp.value = timerStartDate
+    timerStartTimeInp.value = timerStartTime
+})
+
+//save data in variables when SAVE btn is clicked
+saveSettingsBtn.addEventListener('click', () => {
+    checked = timerEnabled.checked
+    timerDuration = timerDurationInp.value
+    timerStartDate = timerStartDateInp.value
+    timerStartTime = timerStartTimeInp.value
+})
+
+//not allowing to type - on numpad, - on number row, e and +
+timerDurationInp.onkeydown = e => {
+    if (e.keyCode == 109 || e.keyCode == 189 || e.keyCode == 69 || e.keyCode == 107 || e.keyCode == 187) return false
+}
+
+//allow only positive numbers to be pasted
+timerDurationInp.addEventListener('paste', e => {
+    e.preventDefault()
+    //regex to replace all characters expect number
+    let paste = parseInt(e.clipboardData.getData('text').replace(/[^\d]/g, ''))
+    e.target.value = Math.abs(paste)
+})

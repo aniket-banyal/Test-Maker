@@ -14,23 +14,32 @@ $(function () {
     })
 })
 
-
 //Share functionality
 shareBtns = document.querySelectorAll('.share')
 shareBtns.forEach(btn => {
-    btn.onclick = (e) => {
+    btn.onclick = e => {
         e.preventDefault()
-        const aux = document.createElement("input")
-        aux.setAttribute("value", `localhost:8000/take-quiz/${btn.getAttribute('data-value')}/`)
-        document.body.appendChild(aux)
-        aux.select()
-        document.execCommand("copy")
-        document.body.removeChild(aux)
-        $(btn).tooltip('show')
+        if (btn.getAttribute('data-timer-set') == 1) {
+            const aux = document.createElement("input")
+            aux.setAttribute("value", `localhost:8000/take-quiz/${btn.getAttribute('data-value')}/register/`)
+            document.body.appendChild(aux)
+            aux.select()
+            document.execCommand("copy")
+            document.body.removeChild(aux)
+            $(btn).tooltip('show')
 
-        setTimeout(() => {
-            $(btn).tooltip('hide')
-        }, 1600)
+            setTimeout(() => {
+                $(btn).tooltip('hide')
+            }, 1600)
+        }
+        else {
+            $(btn).attr("data-original-title", "Please set the timer duration, Start Date and Start Time by going into Edit->Settings");
+            $(btn).tooltip('show')
+
+            setTimeout(() => {
+                $(btn).tooltip('hide')
+            }, 6000)
+        }
     }
 })
 

@@ -1,0 +1,21 @@
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'taker/already_taken_quiz.css' %}">
+<main>
+    <p>Quiz will start automatically on {{startDateTime}}</p>
+</main>
+
+<form></form>
+
+<script type='text/javascript'>
+    form = document.querySelector('form')
+
+    startDateTimeUnix = Date.parse('{{ startDateTime }}')
+    startDateTime = new Date(startDateTimeUnix)
+
+    time = startDateTimeUnix - Date.now()
+    time = Math.round(time / 1000)
+
+    setTimeout(() => form.submit(), time * 1000)
+
+</script>

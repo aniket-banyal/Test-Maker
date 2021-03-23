@@ -4,11 +4,6 @@
   box-sizing: border-box;
 }
 
-/* ::selection {
-  background: #fff;
-  color: #117eeb;
-} */
-
 body {
   background: #252c4a;
   font-family: "Montserrat", sans-serif;
@@ -19,8 +14,15 @@ body {
 header {
   margin-right: 2rem;
   position: fixed;
-  bottom: 0;
   right: 0;
+  top: 0;
+}
+
+footer {
+  margin-right: 2rem;
+  position: fixed;
+  right: 0;
+  bottom: 0;
   /* background-color: aliceblue; */
 }
 

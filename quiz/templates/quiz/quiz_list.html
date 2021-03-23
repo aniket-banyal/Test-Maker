@@ -8,9 +8,6 @@
 
 <div class="create_new_quiz">
     <a href="{% url 'new-quiz' %}" class="btn btn-outline-info" role="button">Create a Quiz</a>
-    <!-- <a href="{% url 'new-quiz' %}">
-        <button class='btns'>Create a Quiz</button>
-    </a> -->
 </div>
 
 <header>
@@ -41,13 +38,9 @@
                 <div class="card-footer">
                     <a href="{% url 'quiz-update' quiz.id%}" class='card-link'>Edit</a>
                     <a href="{{quiz.get_absolute_url}}" class="card-link">Preview</a>
-                    <!-- <a href="{% url 'quiz-delete' quiz.id%}" class="card-link">Delete</a> -->
-
-                    <a href="#" class='card-link share' data-value={{quiz.id}} data-toggle="tooltip"
-                        title="Link Copied to CLipboard!">Share</a>
-
-                    <!-- <a href='#' class="card-link" data-toggle="confirm" data-id="{{quiz.id}}">Delete</a> -->
-
+                    <a href="#" class='card-link share' data-value='{{quiz.id}}' data-toggle="tooltip"
+                        title="Link Copied to Clipboard!" 
+                        {% if quiz.timeLimit is not None and quiz.startDateTime is not None %} data-timer-set='1' {% else %} data-timer-set='0' {% endif %}>Share</a>
                     {% include 'quiz/3dot_menu.html' %}
                 </div>
             </div>
@@ -58,9 +51,14 @@
 
 </div>
 
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+    integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+    crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+    integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
     crossorigin="anonymous"></script>
 
 <link rel="stylesheet" href="{% static 'quiz/delete-popup.css' %}">

@@ -4,11 +4,6 @@
     box-sizing: border-box;
 }
 
-/* ::selection {
-    background: #fff;
-    color: #117eeb;
-} */
-
 html {
     scroll-behavior: smooth;
 }
@@ -17,10 +12,16 @@ body {
     background: #252c4a;
     font-family: "Montserrat", sans-serif;
     font-weight: 300;
-    color: #fff;
 }
 
 header {
+    margin-right: 2rem;
+    position: fixed;
+    top: 0;
+    right: 0;
+}
+
+footer {
     margin-right: 2rem;
     position: fixed;
     bottom: 0;
@@ -125,6 +126,7 @@ input[type='text']:focus, .point input:focus {
     background-color: rgb(22 20 20);
     padding: 2rem;
     border-radius: 15px;
+    color: white;
 }
 
 .quiz-form__ans {

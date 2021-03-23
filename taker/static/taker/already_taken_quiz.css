@@ -1,0 +1,22 @@
+body {
+    background-color: #252c4a;
+}
+
+main {
+    width: 50vw;
+    height: 30vh;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.heading {
+    font-size: 2.5rem;
+}
+
+main p {
+    font-size: 1.5rem;
+}
