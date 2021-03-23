@@ -1,23 +1,7 @@
+{% extends 'quiz/new_update_quiz_common.html' %}
 {% load static %}
 
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-    integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&display=swap">
-
-<link rel="stylesheet" href="{% static 'quiz/new_quiz.css' %}">
-<link rel="stylesheet" href="{% static 'quiz/settings_modal.css' %}">
-
-<header>
-    <button type="button" class="btns" data-toggle="modal" data-target="#settingsModal">
-        Settings
-    </button>
-</header>
-
-<footer>
-    <button id='add' class="btns"> Add New </button>
-    <button id='save' class="btns"> Save </button>
-</footer>
-
+{% block content %}
 <div class="container">
 
     <form action='{% url "quiz-update" quiz.id %}' method='post' class="quiz-form">
@@ -26,7 +10,7 @@
         {% include 'quiz/settings_modal.html' %}
 
         <div class="heading">
-            <input type='text' class="heading__text" name='quiz' required value={{quiz.name}}>
+            <input type='text' class="heading__text" name='quiz' required autofocus value={{quiz.name}}>
         </div>
 
         {% for question in quiz.question_set.all %}
@@ -39,35 +23,28 @@
             {% for choice in question.choice_set.all %}
 
             <div class="quiz-form__ans">
-                <input type="radio" required name='{{question.id}}_radio_option' value='{{forloop.counter}}' 
+                <input type="radio" required name='{{question.id}}_radio_option' value='{{forloop.counter}}'       
                 {% if question.answer.answer == forloop.counter %} checked {% endif %}>
             <span class="design"></span>
             <input type="text" required name="{{question.id}}_option{{forloop.counter}}" value='{{choice.choice}}'>
             </div>
 
-            {% endfor %}
+        {% endfor %}
 
             <div class="footer">
                 <div class="point">
                     <input type="number" name="{{forloop.counter}}_point" value='{{question.point}}' min=0 required>
                     <span>points</span>
                 </div>
+                <button type="button" class='duplicateBtn'>Duplicate</button>
             </div>
         </div>
 
-        {% endfor %}
+    {% endfor %}
         <button type='submit' id='submit' hidden></button>
     </form>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-    crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-    crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-    crossorigin="anonymous"></script>
-
 <script src="{% static 'quiz/quiz_update.js' %}"></script>
+
+{% endblock content %}

@@ -68,14 +68,25 @@ input.heading__text:-webkit-autofill, input.heading__text:-webkit-autofill:hover
 }
 
 .footer {
+    display: flex;
+    justify-content: space-between;
     border-top: 1px solid rgb(74, 70, 70);
     padding-top: 1rem;
     margin-top: 2rem;
     color: rgb(170 170 170);
 }
 
-.point {
-    margin-left: auto;
+.duplicateBtn {
+    width: 5rem;
+    border: none;
+    padding: 0.4rem;
+    background: #bd2130;
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    font-weight: 300;
+    cursor: pointer;
+    transition: transform 200ms ease, box-shadow 200ms ease;
 }
 
 .point input {
@@ -229,16 +240,16 @@ input[type=radio]:hover+.design, input[type=radio]:focus+.design {
     transition: transform 200ms ease, box-shadow 200ms ease;
 }
 
-.btns:focus {
+.btns:focus, .duplicateBtn:focus {
     outline: none;
 }
 
-.btns:hover {
+.btns:hover, .duplicateBtn:hover {
     transform: translateY(-2px) scale(1.001);
     box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.35);
 }
 
-.btns:active {
+.btns:active, .duplicateBtn:active {
     transform: translateY(0) scale(1);
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
 }

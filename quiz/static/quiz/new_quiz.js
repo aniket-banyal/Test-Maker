@@ -20,8 +20,12 @@ saveBtn.onclick = () => {
 }
 
 addBtn.onclick = () => {
-    quiz = document.createElement('div')
-    quiz.classList.add("quiz-form__quiz")
+    createQuestion()
+}
+
+function createQuestion(q_inp_value = null, r_inps_checked = null, o_inps_value = null, points_inp_value = 1) {
+    question = document.createElement('div')
+    question.classList.add("quiz-form__quiz")
 
     label = document.createElement('label')
     label.setAttribute('for', `q_${q_number}`)
@@ -33,9 +37,10 @@ addBtn.onclick = () => {
     q_inp.id = `q_${q_number}`
     q_inp.classList.add('quiz-form__question')
     q_inp.required = true
+    q_inp.value = q_inp_value
 
-    quiz.appendChild(label)
-    quiz.appendChild(q_inp)
+    question.appendChild(label)
+    question.appendChild(q_inp)
 
     for (let i = 1; i < 4 + 1; i++) {
         div = document.createElement('div')
@@ -46,6 +51,7 @@ addBtn.onclick = () => {
         r_inp.name = `${q_number}_radio_option`
         r_inp.value = i
         r_inp.required = true
+        if (r_inps_checked != null) r_inp.checked = r_inps_checked[i - 1]
 
         span = document.createElement('span')
         span.classList.add('design')
@@ -55,11 +61,12 @@ addBtn.onclick = () => {
         o_inp.name = `${q_number}_option${i}`
         o_inp.placeholder = `Option ${i}`
         o_inp.required = true
+        if (o_inps_value != null) o_inp.value = o_inps_value[i - 1]
 
         div.appendChild(r_inp)
         div.appendChild(span)
         div.appendChild(o_inp)
-        quiz.appendChild(div)
+        question.appendChild(div)
     }
 
     footer = document.createElement('div')
@@ -68,28 +75,59 @@ addBtn.onclick = () => {
     point = document.createElement('div')
     point.classList.add('point')
 
-    inp = document.createElement('input')
-    inp.type = 'number'
-    inp.name = `${q_number}_point`
-    inp.value = 1
-    inp.required = true
-    inp.min = 0
+    points_inp = document.createElement('input')
+    points_inp.type = 'number'
+    points_inp.name = `${q_number}_point`
+    points_inp.value = points_inp_value
+    points_inp.required = true
+    points_inp.min = 0
 
     span = document.createElement('span')
     span.innerHTML = 'points'
 
-    point.appendChild(inp)
+    point.appendChild(points_inp)
     point.appendChild(span)
-    footer.appendChild(point)
-    quiz.appendChild(footer)
 
-    form.appendChild(quiz)
+    duplicateBtn = document.createElement('button')
+    duplicateBtn.type = 'button'
+    duplicateBtn.classList.add('duplicateBtn')
+    duplicateBtn.innerHTML = 'Duplicate'
+    duplicateBtn.addEventListener('click', duplicateQuestion)
+
+    footer.appendChild(point)
+    footer.appendChild(duplicateBtn)
+    question.appendChild(footer)
+
+    form.appendChild(question)
 
     q_number++
 
     q_inp.focus()
-    quiz.scrollIntoView();
+    question.scrollIntoView()
 }
+
+
+//duplicate question
+duplicateBtns = document.querySelectorAll('.duplicateBtn')
+duplicateBtns.forEach(duplicateBtn => duplicateBtn.addEventListener('click', duplicateQuestion))
+
+function duplicateQuestion(e) {
+    const parentQuestion = e.target.parentElement.parentElement
+    const q_inp_value = parentQuestion.querySelector('.quiz-form__question').value
+    let r_inps_checked = []
+    let o_inps_value = []
+
+    for (r_inp of parentQuestion.querySelectorAll('.quiz-form__ans input[type="radio"]'))
+        r_inps_checked.push(r_inp.checked)
+
+    for (o_inp of parentQuestion.querySelectorAll('.quiz-form__ans input[type="text"]'))
+        o_inps_value.push(o_inp.value)
+
+    points_inp_value = parentQuestion.querySelector('.footer input[type="number"]').value
+
+    createQuestion(q_inp_value, r_inps_checked, o_inps_value, points_inp_value)
+}
+
 
 //to make autofocus work in settings modal
 $('.modal').on('shown.bs.modal', function () {
