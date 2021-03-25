@@ -27,6 +27,12 @@
 
             {% endfor %}
 
+            <div class="quiz-form__ans">
+                <input type="radio">
+                <span class="design"></span>
+                <input type="text" class='add_choice' placeholder="Add Option">
+            </div>
+
             <div class="footer">
                 <div class="point">
                     <input type="number" name="1_point" value=1 min=0 required>
@@ -41,7 +47,5 @@
         <button type='submit' id='submit' hidden></button>
     </form>
 </div>
-
-<script src="{% static 'quiz/new_quiz.js' %}"></script>
 
 {% endblock content %}
