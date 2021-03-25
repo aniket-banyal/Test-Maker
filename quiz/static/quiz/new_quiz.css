@@ -133,6 +133,18 @@ input[type='text'] {
     font-size: 1.1rem;
 }
 
+.quiz-form__ans input[type='text']::placeholder {
+    color: rgb(140, 140, 140);
+}
+
+.quiz-form__ans input.add_choice {
+    border-bottom: 1px solid rgb(70, 70, 70);
+}
+
+.quiz-form__ans input.add_choice::placeholder {
+    color: rgb(100, 100, 100);
+}
+
 input[type='text']:focus, .point input:focus {
     border-color: #2489c5;
     border-width: 1px;
