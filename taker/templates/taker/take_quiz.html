@@ -26,8 +26,8 @@
 
             {% for question in quiz.question_set.all %}
 
-            <div class="quiz-form__quiz">
-                <div class="question">
+            <div class="question">
+                <div class="questionHeader">
                     <p class="quiz-form__question">{{question.question}}</p>
                     <div class="point">
                         <p>{{question.point}}</p>

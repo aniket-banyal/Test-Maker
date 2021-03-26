@@ -15,19 +15,26 @@
 
         {% for question in quiz.question_set.all %}
 
-        <div class="quiz-form__quiz">
+        <div class="question">
             <label for="q_{{forloop.counter}}">{{forloop.counter}}.</label>
             <input type="text" name="q_{{forloop.counter}}" id="q_{{forloop.counter}}" class="quiz-form__question"
-                required value='{{question.question}}''>
+                required value='{{question.question}}'>
 
             {% for choice in question.choice_set.all %}
 
             <div class="quiz-form__ans">
-                <input type="radio" required name=' {{forloop.parentloop.counter}}_radio_option'
-                value='{{forloop.counter}}' {% if question.answer.answer==forloop.counter %} checked {% endif %}>
+                <input type="radio" required name='{{forloop.parentloop.counter}}_radio_option'
+                    value='{{forloop.counter}}' {% if question.answer.answer == forloop.counter %} checked {% endif %}>
                 <span class="design"></span>
                 <input type="text" required name="{{forloop.parentloop.counter}}_option{{forloop.counter}}"
-                value='{{choice.choice}}'>
+                    value='{{choice.choice}}'>
+                <svg fill="#5c626f" class="delete_choice" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                    viewBox="0 0 24 24">
+                    <path
+                        d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z">
+                    </path>
+                    <path d="M0 0h24v24H0z" fill="none"></path>
+                </svg>
             </div>
 
             {% endfor %}
@@ -50,9 +57,9 @@
             </div>
         </div>
 
-{% endfor %}
-<button type='submit' id='submit' hidden></button>
-</form>
+        {% endfor %}
+        <button type='submit' id='submit' hidden></button>
+    </form>
 </div>
 
 {% endblock content %}

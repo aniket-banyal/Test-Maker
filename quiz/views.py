@@ -92,6 +92,15 @@ def newQuiz(request):
     return render(request, 'quiz/new_quiz.html', {'defaultNumberOfChoices': defaultNumberOfChoices})
 
 
+def addChoices(data, question, q_number, startIdx):
+    for j in range(startIdx, len(data)):
+        try:
+            Choice.objects.create(
+                choice=data[f'{q_number}_option{j}'], question=question)
+        except KeyError:
+            break
+
+
 def _updateQuiz(data, quiz):
     quiz.name = data['quiz']
 
@@ -122,10 +131,18 @@ def _updateQuiz(data, quiz):
             question.save()
 
             j = 1
+            more_choices_left = True
             for choice in question.choice_set.all():
-                choice.choice = data[f'{i}_option{j}']
-                choice.save()
+                try:
+                    choice.choice = data[f'{i}_option{j}']
+                    choice.save()
+                except KeyError:
+                    choice.delete()
+                    more_choices_left = False
                 j += 1
+
+            if more_choices_left:
+                addChoices(data, question, i, j)
 
             answer = question.answer
             answer.answer = data[f'{i}_radio_option']

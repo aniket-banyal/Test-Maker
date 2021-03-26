@@ -150,11 +150,11 @@ input[type='text']:focus, .point input:focus {
     border-width: 1px;
 }
 
-.quiz-form__quiz:not(:last-child) {
+.question:not(:last-child) {
     margin-bottom: 2rem;
 }
 
-.quiz-form__quiz {
+.question {
     background-color: rgb(22 20 20);
     padding: 2rem;
     border-radius: 15px;
@@ -170,6 +170,16 @@ input[type='text']:focus, .point input:focus {
     justify-content: flex-start;
     align-items: center;
     flex-wrap: nowrap;
+}
+
+.quiz-form__ans .delete_choice {
+    margin-left: auto;
+    align-self: flex-end;
+}
+
+.quiz-form__ans .delete_choice:hover {
+    cursor: pointer;
+    fill: #ff0019;
 }
 
 /* .quiz-form__ans input[type='text'] {
