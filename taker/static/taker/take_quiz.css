@@ -42,7 +42,7 @@ footer {
     /* background-color: aliceblue; */
 }
 
-.question {
+.questionHeader {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -109,13 +109,13 @@ footer {
     font-size: 1.2rem;
 }
 
-.quiz-form__quiz {
+.question {
     background-color: rgb(22 20 20);
     padding: 2rem;
     border-radius: 15px;
 }
 
-.quiz-form__quiz:not(:last-child) {
+.question:not(:last-child) {
     margin-bottom: 2rem;
 }
 

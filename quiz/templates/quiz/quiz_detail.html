@@ -20,15 +20,15 @@
 
         {% for question in object.question_set.all %}
 
-        <div class="quiz-form__quiz">
-            <div class="question">
+        <div class="question">
+            <div class="questionHeader">
                 <p class="quiz-form__question">{{question.question}}</p>
                 <div class="point">
                     <p>{{question.point}}</p>
                     {% if question.point == 1 %}
-                        <span>point</span>
+                    <span>point</span>
                     {% else %}
-                        <span>points</span>
+                    <span>points</span>
                     {% endif %}
                 </div>
             </div>
