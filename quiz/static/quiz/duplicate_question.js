@@ -1,14 +1,30 @@
-const duplicateBtns = document.querySelectorAll('.duplicateBtn')
-duplicateBtns.forEach(duplicateBtn => duplicateBtn.addEventListener('click', duplicateQuestion))
+document.querySelectorAll('.mcqDuplicateBtn').forEach(duplicateBtn => duplicateBtn.addEventListener('click', duplicateMcqQuestion))
 
-function duplicateQuestion(e) {
+document.querySelectorAll('.checkboxDuplicateBtn').forEach(duplicateBtn => duplicateBtn.addEventListener('click', duplicateCheckboxQuestion))
+
+function duplicateMcqQuestion(e) {
+    _duplicateQuestion(e, question_type = 'mcq')
+}
+
+
+function duplicateCheckboxQuestion(e) {
+    _duplicateQuestion(e, question_type = 'checkbox')
+}
+
+function _duplicateQuestion(e, question_type) {
     const parentQuestion = e.target.parentElement.parentElement.parentElement
     const q_inp_value = parentQuestion.querySelector('.quiz-form__question').value
     let r_inps_checked = []
     let o_inps_value = []
 
-    for (r_inp of parentQuestion.querySelectorAll('.quiz-form__ans input[type="radio"]'))
-        r_inps_checked.push(r_inp.checked)
+    if (question_type == 'mcq') {
+        for (r_inp of parentQuestion.querySelectorAll('.quiz-form__ans input[type="radio"]'))
+            r_inps_checked.push(r_inp.checked)
+    }
+    else if (question_type == 'checkbox') {
+        for (c_inp of parentQuestion.querySelectorAll('.quiz-form__ans input[type="checkbox"]'))
+            r_inps_checked.push(c_inp.checked)
+    }
 
     for (o_inp of parentQuestion.querySelectorAll('.quiz-form__ans input[type="text"]'))
         o_inps_value.push(o_inp.value)
@@ -16,7 +32,7 @@ function duplicateQuestion(e) {
     const points_inp_value = parentQuestion.querySelector('.footer input[type="number"]').value
 
     // - 1 cuz we don't want to include the Add Option input
-    const number_of_choices = parentQuestion.querySelectorAll('.quiz-form__ans input[type="radio"]').length - 1
+    const number_of_choices = parentQuestion.querySelectorAll('.quiz-form__ans input[type="text"]').length - 1
 
-    createQuestion(q_inp_value, r_inps_checked, o_inps_value, points_inp_value, number_of_choices)
+    createQuestion(question_type, q_inp_value, r_inps_checked, o_inps_value, points_inp_value, number_of_choices)
 }

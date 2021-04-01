@@ -254,6 +254,18 @@ input[type=radio]:hover+.design, input[type=radio]:focus+.design {
     border: 2px solid #52a9ff;
 }
 
+.add_new {
+    width: 8rem;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    background: #117eeb;
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    font-weight: 300;
+    cursor: pointer;
+}
+
 .btns {
     width: 9rem;
     border: none;

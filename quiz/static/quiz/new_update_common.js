@@ -17,4 +17,8 @@ form.addEventListener('keydown', (e) => {
 
 saveBtn.onclick = () => { submitBtn.click() }
 
-addBtn.onclick = () => { createQuestion() }
+addBtn.onclick = () => { createQuestion(question_type = 'mcq') }
+
+document.querySelector('#addMcq').addEventListener('click', e => createQuestion(question_type = 'mcq'))
+document.querySelector('#addCheckbox').addEventListener('click', e => createQuestion(question_type = 'checkbox'))
+
