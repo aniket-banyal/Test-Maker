@@ -1,6 +1,7 @@
 const deleteBtns = document.querySelectorAll('.deleteBtn')
 deleteBtns.forEach(deleteBtn => deleteBtn.addEventListener('click', deleteQuestion))
 
+
 function deleteQuestion(e) {
     const parentQuestion = e.target.parentElement.parentElement.parentElement
     parentQuestion.remove()
@@ -19,15 +20,26 @@ function deleteQuestion(e) {
 
         options = question.querySelectorAll('.quiz-form__ans')
 
+        question_type = 'mcq'
+
+        if (question.querySelectorAll('.quiz-form__ans input[type="checkbox"]').length > 0)
+            question_type = 'checkbox'
+
         //options.length-1 cuz we don't want to modify the Add Option inputs
         for (i = 0; i < options.length - 1; i++) {
             option = options[i]
 
-            r_inp = option.querySelector('input[type="radio"]')
-            r_inp.name = `${q_number}_radio_option`
+            if (question_type == 'mcq') {
+                r_inp = option.querySelector('input[type="radio"]')
+                r_inp.name = `${q_number}_radio_option`
+            }
+            else if (question_type == 'checkbox') {
+                c_inp = option.querySelector('input[type="checkbox"]')
+                c_inp.name = `${q_number}_checkbox_${i + 1}`
+            }
 
             o_inp = option.querySelector('input[type="text"]')
-            o_inp.name = `${q_number}_option${i}`
+            o_inp.name = `${q_number}_option${i + 1}`
         }
 
         points_inp = question.querySelector('.footer input[type="number"]')

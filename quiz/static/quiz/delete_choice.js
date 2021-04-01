@@ -1,7 +1,18 @@
-const delete_choice_btns = document.querySelectorAll('.delete_choice')
-delete_choice_btns.forEach(delete_choice_btn => delete_choice_btn.addEventListener('click', deleteChoice))
+document.querySelectorAll('.delete_mcq_choice').forEach(delete_choice_btn => delete_choice_btn.addEventListener('click', deleteMcqChoice))
 
-function deleteChoice(e) {
+document.querySelectorAll('.delete_checkbox_choice').forEach(delete_choice_btn => delete_choice_btn.addEventListener('click', deleteCheckboxChoice))
+
+function deleteMcqChoice(e) {
+    _deleteChoice(e, question_type = 'mcq')
+}
+
+
+function deleteCheckboxChoice(e) {
+    _deleteChoice(e, question_type = 'checkbox')
+}
+
+
+function _deleteChoice(e, question_type) {
     if (e.target.classList.contains('delete_choice')) delete_choice_btn = e.target
     else delete_choice_btn = e.target.parentElement
 
@@ -17,8 +28,14 @@ function deleteChoice(e) {
     for (i = 0; i < options.length - 1; i++) {
         option = options[i]
 
-        r_inp = option.querySelector('input[type="radio"]')
-        r_inp.value = i + 1
+        if (question_type == 'mcq') {
+            r_inp = option.querySelector('input[type="radio"]')
+            r_inp.value = i + 1
+        }
+        else if (question_type == 'checkbox') {
+            c_inp = option.querySelector('input[type="checkbox"]')
+            c_inp.name = `${t_q_number}_checkbox_${i + 1}`
+        }
 
         o_inp = option.querySelector('input[type="text"]')
         o_inp.name = `${t_q_number}_option${i + 1}`

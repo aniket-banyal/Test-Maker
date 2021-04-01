@@ -1,0 +1,21 @@
+{% for choice in question.choices %}
+
+    <label class="quiz-form__ans {% if choice.css_class is not None %} {{choice.css_class}} {% endif %}">
+        <input type="radio" {% if choice.isMarkedByTaker%} checked {% endif %} readonly>
+        <span class="design"></span>
+        <span class="text">{{choice.choice}}</span>
+        <span class='result'>
+        {% if choice.isMarkedByTaker %}
+            {% if choice.isAnswer %}
+            ✓
+            {% else %}
+            X
+            {% endif %}
+
+        {% elif choice.isAnswer %}
+        Correct Answer
+        {% endif %}
+        </span>
+    </label>
+
+{% endfor %}

@@ -35,11 +35,18 @@
 
             {% for choice in question.choice_set.all %}
 
-            <label class="quiz-form__ans" for="{{question.id}}_choice{{ forloop.counter }}">
-                <input type="radio" {% if question.answer.answer == forloop.counter %} checked {% endif %}
-                    id="{{question.id}}_choice{{ forloop.counter }}" value="{{ choice.id }}"
-                    name='{{question.id}}_radio_option' />
+            <label class="quiz-form__ans" for="{{forloop.parentloop.counter}}_choice{{ forloop.counter }}">
+                {% if question.type == 'mcq' %}
+                <input type="radio" id="{{forloop.parentloop.counter}}_choice{{ forloop.counter }}" required
+                    name='{{forloop.parentloop.counter}}_radio_option' value='{{forloop.counter}}'>
                 <span class="design"></span>
+
+                {% elif question.type == 'checkbox' %}
+                <input type="checkbox" id="{{forloop.parentloop.counter}}_choice{{ forloop.counter }}" required
+                    name='{{forloop.parentloop.counter}}_checkbox_{{forloop.counter}}'>
+
+                {% endif %}
+
                 <span class="text">{{choice.choice}}</span>
             </label>
 

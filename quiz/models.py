@@ -22,6 +22,7 @@ class Question(models.Model):
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
     question = models.CharField(max_length=500)
     point = models.IntegerField()
+    type = models.CharField(max_length=20, null=True)
 
     def __str__(self):
         return str(self.question)
@@ -35,8 +36,16 @@ class Choice(models.Model):
         return str(self.choice)
 
 
-class Answer(models.Model):
+class McqAnswer(models.Model):
     question = models.OneToOneField(Question, on_delete=models.CASCADE)
+    answer = models.IntegerField()
+
+    def __str__(self):
+        return str(self.answer)
+
+
+class CheckboxAnswer(models.Model):
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
     answer = models.IntegerField()
 
     def __str__(self):

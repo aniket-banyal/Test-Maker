@@ -19,64 +19,32 @@
 
         <form class="quiz-form">
 
-            {% for question in quiz.question_set.all %}
+            {% for question in questions %}
 
-            <div class="question">
-                <div class="questionHeader">
-                    <p class="quiz-form__question">{{question.question}}</p>
-                    <div class="point">
-                        <p>{{question.point}}</p>
-                        {% if question.point == 1 %}
-                        <span>point</span>
-                        {% else %}
-                        <span>points</span>
-                        {% endif %}
+                <div class="question">
+                    <div class="questionHeader">
+                        <p class="quiz-form__question">{{question.question}}</p>
+                        <div class="point">
+                            <p>{{question.point}}</p>
+                            {% if question.point == 1 %}
+                            <span>point</span>
+                            {% else %}
+                            <span>points</span>
+                            {% endif %}
+                        </div>
                     </div>
+
+                    {% if question.type == 'mcq' %}
+
+                        {% include 'taker/mcq.html' %}
+                    
+                    {% elif question.type == 'checkbox' %}
+                    
+                        {% include 'taker/checkbox.html' %}
+
+                    {% endif %}
+
                 </div>
-
-                {% for choice in question.choice_set.all %}
-                {% for answer in user.answer_set.all %}
-                {%if answer.real_answer.id == question.answer.id%}
-
-                <label class="quiz-form__ans {% if answer.answer == forloop.parentloop.counter %}
-                    {% if answer.answer == answer.real_answer.answer %}
-                    correct 
-                    {% else %}
-                    wrong
-                    {% endif %}
-                {% endif %}
-                
-                {% if answer.real_answer.answer == forloop.parentloop.counter %}
-                    {% if answer.answer != answer.real_answer.answer %}
-                    real-correct 
-                    {% endif %}
-                {% endif %}" 
-                for="{{question.id}}_choice{{ forloop.counter }}">
-                    <input type="radio" {% if answer.answer == forloop.parentloop.counter %} checked {% endif %} readonly>
-                    <span class="design"></span>
-                    <span class="text">{{choice.choice}}</span>
-                    <span class='result'>
-                        {% if answer.answer == forloop.parentloop.counter %}
-                        {% if answer.answer == answer.real_answer.answer %}
-                        ✓
-                        {% else %}
-                        X
-                        {% endif %}
-                        {% endif %}
-
-                        {% if answer.real_answer.answer == forloop.parentloop.counter %}
-                        {% if answer.answer != answer.real_answer.answer %}
-                        Correct Answer
-                        {% endif %}
-                        {% endif %}
-                    </span>
-                </label>
-                {%endif%}
-
-                {% endfor %}
-                {% endfor %}
-
-            </div>
 
             {% endfor %}
 

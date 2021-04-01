@@ -1,21 +1,47 @@
-const add_choice_text_inps = document.querySelectorAll('.add_choice')
-add_choice_text_inps.forEach(add_choice_text_inp => {
-    add_choice_text_inp.addEventListener('click', addChoice)
-    add_choice_text_inp.addEventListener('input', addChoice)
+document.querySelectorAll('.add_mcq_choice').forEach(add_mcq_choice_text_inp => {
+    add_mcq_choice_text_inp.addEventListener('click', addMcqChoice)
+    add_mcq_choice_text_inp.addEventListener('input', addMcqChoice)
 
-    add_choice_radio_inp = add_choice_text_inp.parentElement.querySelector('input[type="radio"]')
-    add_choice_radio_inp.addEventListener('click', addChoice)
+    add_choice_radio_inp = add_mcq_choice_text_inp.parentElement.querySelector('input[type="radio"]')
+    add_choice_radio_inp.addEventListener('click', addMcqChoice)
 })
 
-function addChoice(e) {
+document.querySelectorAll('.add_checkbox_choice').forEach(add_checkbox_choice_text_inp => {
+    add_checkbox_choice_text_inp.addEventListener('click', addCheckboxChoice)
+    add_checkbox_choice_text_inp.addEventListener('input', addCheckboxChoice)
+
+    add_choice_checkbox_inp = add_checkbox_choice_text_inp.parentElement.querySelector('input[type="checkbox"]')
+    add_choice_checkbox_inp.addEventListener('click', addCheckboxChoice)
+})
+
+function addMcqChoice(e) {
+    _addChoice(e, question_type = 'mcq')
+}
+
+function addCheckboxChoice(e) {
+    _addChoice(e, question_type = 'checkbox')
+}
+
+function _addChoice(e, question_type) {
     if (e.target.type == 'text') {
         add_choice_text_inp = e.target
         choice = add_choice_text_inp.parentElement
-        add_choice_radio_inp = choice.querySelector('input[type="radio"]')
+
+        if (question_type == 'mcq')
+            add_choice_radio_inp = choice.querySelector('input[type="radio"]')
+        else if (question_type == 'checkbox')
+            add_choice_checkbox_inp = choice.querySelector('input[type="checkbox"]')
     }
     else {
-        add_choice_radio_inp = e.target
-        choice = add_choice_radio_inp.parentElement
+        if (question_type == 'mcq') {
+            add_choice_radio_inp = e.target
+            choice = add_choice_radio_inp.parentElement
+        }
+        else if (question_type == 'checkbox') {
+            add_choice_checkbox_inp = e.target
+            choice = add_choice_checkbox_inp.parentElement
+        }
+
         add_choice_text_inp = choice.querySelector('input[type="text"]')
     }
 
@@ -27,17 +53,25 @@ function addChoice(e) {
     add_choice_text_inp.name = `${t_q_number}_option${i}`
     add_choice_text_inp.required = true
     add_choice_text_inp.placeholder = `Option ${i}`
-    add_choice_text_inp.classList.remove('add_choice')
+    add_choice_text_inp.classList.remove('add_mcq_choice')
 
-    add_choice_radio_inp.name = `${t_q_number}_radio_option`
-    add_choice_radio_inp.value = i
-    add_choice_radio_inp.required = true
+    if (question_type == 'mcq') {
+        add_choice_radio_inp.name = `${t_q_number}_radio_option`
+        add_choice_radio_inp.value = i
+        add_choice_radio_inp.required = true
 
-    choice.appendChild(createDeleteChoiceSvg())
+        add_choice_text_inp.removeEventListener('click', addMcqChoice)
+        add_choice_text_inp.removeEventListener('input', addMcqChoice)
+        add_choice_radio_inp.removeEventListener('click', addMcqChoice)
+    }
+    else if (question_type == 'checkbox') {
+        add_choice_checkbox_inp.name = `${t_q_number}_checkbox_${i}`
 
-    choice.insertAdjacentElement('afterend', createAddChoiceDiv())
+        add_choice_text_inp.removeEventListener('click', addCheckboxChoice)
+        add_choice_text_inp.removeEventListener('input', addCheckboxChoice)
+        add_choice_checkbox_inp.removeEventListener('click', addCheckboxChoice)
+    }
+    choice.appendChild(createDeleteChoiceSvg(question_type))
 
-    add_choice_text_inp.removeEventListener('click', addChoice)
-    add_choice_text_inp.removeEventListener('input', addChoice)
-    add_choice_radio_inp.removeEventListener('click', addChoice)
+    choice.insertAdjacentElement('afterend', createAddChoiceDiv(question_type))
 }
