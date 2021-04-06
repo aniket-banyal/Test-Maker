@@ -1,3 +1,5 @@
+{% load static %}
+
 <div class="modal fade" id="duplicateModal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -12,7 +14,7 @@
                     {%csrf_token%}
                     <div class="form-group">
                         <label for="recipient-name" class="col-form-label">Name of duplicated quiz:</label>
-                        <input type="text" class="form-control" name='quiz' required autofocus>
+                        <input type="text" class="form-control" name='quiz' value='{{quiz.name}}' required autofocus>
                         <button id='submit' type='submit' hidden></button>
                     </div>
                 </form>
@@ -24,3 +26,5 @@
         </div>
     </div>
 </div>
+
+<script src="{% static 'quiz/duplicate_quiz.js' %}"></script>

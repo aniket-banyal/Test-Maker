@@ -4,8 +4,6 @@
 
 {% include 'quiz/navbar.html' %}
 
-{% include 'quiz/duplicate_modal.html' %}
-
 <div class="create_new_quiz">
     <a href="{% url 'new-quiz' %}" class="btn btn-outline-info" role="button">Create a Quiz</a>
 </div>
@@ -20,6 +18,8 @@
     <div class="row">
 
         {% for quiz in object_list %}
+
+        {% include 'quiz/duplicate_modal.html' %}
 
         <form id='{{quiz.id}}' method="POST" action="{% url 'quiz-delete' quiz.id %}" hidden>
             {% csrf_token %}<input type="submit" value="DELETE">
