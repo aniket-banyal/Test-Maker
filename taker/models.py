@@ -27,8 +27,7 @@ class Taker(models.Model):
         return sum(takerAnswer.getScore() for takerAnswer in self.mcqanswer_set.all())
 
     def _getCheckboxQuestionsScore(self):
-        checkboxQuestions = [question for question in self.quiz.question_set.all()
-                             if question.type == 'checkbox']
+        checkboxQuestions = self.quiz.question_set.checkbox_questions()
 
         checkboxScore = sum(self._getCheckboxQuestionScore(
             question, question.point) for question in checkboxQuestions)
