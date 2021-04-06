@@ -56,11 +56,21 @@ class Quiz(models.Model):
         return sum(question.point for question in self.question_set.all())
 
 
+class QuestionManager(models.Manager):
+    def mcq_questions(self):
+        return self.get_queryset().filter(type='mcq')
+
+    def checkbox_questions(self):
+        return self.get_queryset().filter(type='checkbox')
+
+
 class Question(models.Model):
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
     question = models.CharField(max_length=500)
     point = models.IntegerField()
     type = models.CharField(max_length=20, null=True)
+
+    objects = QuestionManager()
 
     def __str__(self):
         return str(self.question)

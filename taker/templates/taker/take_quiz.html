@@ -20,7 +20,7 @@
 
     <div class="quiz">
 
-        <form action="{% url 'submit-quiz' quiz.id user_id%}" method='POST' class="quiz-form">
+        <form action="{% url 'submit-quiz' quiz.id taker_id%}" method='POST' class="quiz-form">
             <button type='submit' id='hiddenSubmit' hidden></button>
             {%csrf_token%}
 
