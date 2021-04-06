@@ -5,7 +5,7 @@ const timeLimitBtn = document.querySelector('#timeLimit')
 
 submitBtn.onclick = () => hiddenBtn.click()
 
-setInterval(myTimer, 1000)
+const interval = setInterval(myTimer, 1000)
 
 const endDateTimeUnix = Date.parse(timeLimitBtn.getAttribute('data-endDateTime'))
 let timeRemaining = endDateTimeUnix - Date.now()
@@ -26,7 +26,10 @@ function myTimer() {
         seconds = 59
     }
 
-    if (minutes == 0 && seconds == 0) form.submit()
+    if (minutes == 0 && seconds == 0) {
+        form.submit()
+        clearInterval(interval)
+    }
     else if (seconds <= 20 && minutes == 0) timeLimitBtn.style.background = 'red'
 
     if (seconds < 10) seconds = "0" + seconds
