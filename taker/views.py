@@ -21,14 +21,14 @@ def takeQuizRegister(request, pk):
         form = UserRegisterForm(request.POST)
 
         if form.is_valid():
-            user = form.save(commit=False)
+            taker = form.save(commit=False)
 
-            if hasTakerAlreadyTakenQuiz(user, quiz):
+            if hasTakerAlreadyTakenQuiz(taker, quiz):
                 return render(request, 'taker/already_taken_quiz.html')
 
-            user.save()
+            taker.save()
 
-            return redirect('take-quiz', pk=pk, user_id=user.id)
+            return redirect('take-quiz', pk=pk, taker_id=taker.id)
 
     else:
         if quiz.isOver():
@@ -40,11 +40,11 @@ def takeQuizRegister(request, pk):
 
 
 @never_cache
-def takeQuiz(request, pk, user_id):
+def takeQuiz(request, pk, taker_id):
     quiz = get_object_or_404(Quiz, id=pk)
-    user = get_object_or_404(Taker, id=user_id)
+    taker = get_object_or_404(Taker, id=taker_id)
 
-    if user.quiz == quiz:
+    if taker.quiz == quiz:
         return render(request, 'taker/already_taken_quiz.html')
 
     if not quiz.hasStarted():
@@ -53,7 +53,7 @@ def takeQuiz(request, pk, user_id):
     if quiz.isOver():
         return render(request, 'taker/quiz_not_accepting_responses.html')
 
-    context = {'quiz': quiz, 'user_id': user_id,
+    context = {'quiz': quiz, 'taker_id': taker_id,
                'endDateTime': formatDateTimeForJavascript(quiz.endDateTime)}
 
     return render(request, 'taker/take_quiz.html', context)
@@ -63,11 +63,11 @@ BUFFER_TIME = 5
 
 
 @ require_POST
-def submitQuiz(request, pk, user_id):
+def submitQuiz(request, pk, taker_id):
     quiz = get_object_or_404(Quiz, id=pk)
-    user = get_object_or_404(Taker, id=user_id)
+    taker = get_object_or_404(Taker, id=taker_id)
 
-    if user.quiz == quiz:
+    if taker.quiz == quiz:
         return render(request, 'taker/already_taken_quiz.html')
 
     now = datetime.now().replace(tzinfo=pytz.UTC)
@@ -77,32 +77,32 @@ def submitQuiz(request, pk, user_id):
     # print('endDateTime-   ', endDateTime)
     # print('datetime.now-  ', datetime.now(), '\n')
 
-    # if user manipulates seconds or minutes in console of take_quiz and submits after endDateTime, then to handle that
+    # if taker manipulates seconds or minutes in console of take_quiz and submits after endDateTime, then to handle that
     if endDateTime + timedelta(seconds=BUFFER_TIME) < now:
-        user.delete()
+        taker.delete()
         return render(request, 'taker/quiz_not_accepting_responses.html')
 
     data = request.POST.dict()
     print(data)
 
-    user.quiz = quiz
-    user.save()
+    taker.quiz = quiz
+    taker.save()
 
-    createTakerAnswers(quiz, user, data)
+    createTakerAnswers(quiz, taker, data)
 
     if quiz.isOver():
-        return redirect('result', pk=pk, user_id=user_id)
+        return redirect('result', pk=pk, taker_id=taker_id)
 
     else:
         interval = (endDateTime - now).total_seconds()
-        setSendEmailTimer(quiz, user, interval)
+        setSendEmailTimer(quiz, taker, interval)
 
-        return render(request, 'taker/quiz_submitted.html', {'user': user, 'endDate': endDateTime.date(), 'endTime': endDateTime.time()})
+        return render(request, 'taker/quiz_submitted.html', {'taker': taker, 'endDate': endDateTime.date(), 'endTime': endDateTime.time()})
 
 
-def result(request, pk, user_id):
+def result(request, pk, taker_id):
     quiz = get_object_or_404(Quiz, id=pk)
-    user = get_object_or_404(Taker, id=user_id)
+    taker = get_object_or_404(Taker, id=taker_id)
 
     # if this url is visited by a logged in user who has not created this quiz deny
     # but still need to solve that anonymous user can still access this url
@@ -110,11 +110,8 @@ def result(request, pk, user_id):
         if request.user != quiz.maker:
             raise PermissionDenied
 
-    allQuestions = quiz.question_set.all()
+    takerQuestions = createTakerQuestionsList(quiz.question_set.all(), taker)
 
-    takerQuestions = createTakerQuestionsList(
-        allQuestions, user)
+    score = taker.score
 
-    score = user.score
-
-    return render(request, 'taker/result.html', {'score': score, 'quiz': quiz, 'user': user, 'questions': takerQuestions})
+    return render(request, 'taker/result.html', {'score': score, 'quiz': quiz, 'questions': takerQuestions})

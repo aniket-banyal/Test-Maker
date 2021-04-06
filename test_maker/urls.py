@@ -17,7 +17,7 @@ urlpatterns = [
     path('quiz/<int:pk>/duplicate/', quiz_views.quizDuplicate, name='quiz-duplicate'),
     path('quiz/<int:pk>/result/', quiz_views.quizResult, name='quiz-result'),
     path('take-quiz/<int:pk>/register/', taker_views.takeQuizRegister,name='take-quiz-register'),
-    path('take-quiz/<int:pk>/<int:user_id>/', taker_views.takeQuiz,name='take-quiz'),
-    path('take-quiz/<int:pk>/<int:user_id>/submit/', taker_views.submitQuiz, name='submit-quiz'),
-    path('take-quiz/<int:pk>/<int:user_id>/result/', taker_views.result, name='result'),
+    path('take-quiz/<int:pk>/<int:taker_id>/', taker_views.takeQuiz,name='take-quiz'),
+    path('take-quiz/<int:pk>/<int:taker_id>/submit/', taker_views.submitQuiz, name='submit-quiz'),
+    path('take-quiz/<int:pk>/<int:taker_id>/result/', taker_views.result, name='result'),
 ]

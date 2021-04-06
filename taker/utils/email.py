@@ -6,7 +6,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
 
-def sendEmail(quiz, user):
+def sendEmail(quiz, taker):
     print("Sending mail")
     port = 465
     password = "You can't cracky m3!"
@@ -17,7 +17,7 @@ def sendEmail(quiz, user):
         sender_email = "fordblogging@gmail.com"
         server.login(sender_email, password)
         # receiver_email = "dummyani26@gmail.com"
-        receiver_email = user.email
+        receiver_email = taker.email
 
         msg = MIMEMultipart('alternative')
 
@@ -29,7 +29,7 @@ def sendEmail(quiz, user):
                   <body>
                     <p>
                        Check out the correct answers to the quiz - {quiz.name} <br>
-                       Here is the <a href='http://localhost:8000/take-quiz/{quiz.id}/{user.id}/result/'>link</a>.
+                       Here is the <a href='http://localhost:8000/take-quiz/{quiz.id}/{taker.id}/result/'>link</a>.
                     </p>
                   </body>
                 </html>
@@ -49,6 +49,6 @@ def sendEmail(quiz, user):
         server.quit()
 
 
-def setSendEmailTimer(quiz, user, interval):
-    timer = threading.Timer(interval, sendEmail, args=[quiz, user])
+def setSendEmailTimer(quiz, taker, interval):
+    timer = threading.Timer(interval, sendEmail, args=[quiz, taker])
     timer.start()
