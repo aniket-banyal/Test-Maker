@@ -1,6 +1,8 @@
 from django.db import models
 from django.conf import settings
 from django.urls import reverse
+from datetime import datetime, timedelta
+import pytz
 
 
 class Quiz(models.Model):
@@ -11,11 +13,47 @@ class Quiz(models.Model):
     timeLimit = models.IntegerField(null=True)
 
     def __str__(self):
-        return f'{self.name} by {self.maker}'
+        return self.name
 
     def get_absolute_url(self):
         return reverse("quiz-detail", kwargs={"pk": self.pk})
         # return reverse("quiz-detail", pk=self.pk)
+
+    @property
+    def endDateTime(self):
+        return self.startDateTime + timedelta(minutes=self.timeLimit)
+
+    def hasStarted(self):
+        now = datetime.now().replace(tzinfo=pytz.UTC)
+        return now > self.startDateTime
+
+    def isOver(self):
+        now = datetime.now().replace(tzinfo=pytz.UTC)
+        return now >= self.endDateTime
+
+    def getStartDate(self, dateFormat='%Y-%m-%d'):
+        startDateTime = self.startDateTime
+
+        if startDateTime is not None:
+            startDate = startDateTime.date().strftime(dateFormat)
+        else:
+            startDate = None
+
+        return startDate
+
+    def getStartTime(self, timeFormat='%H:%M'):
+        startDateTime = self.startDateTime
+
+        if startDateTime is not None:
+            startTime = startDateTime.time().strftime(timeFormat)
+        else:
+            startTime = None
+
+        return startTime
+
+    @property
+    def totalPoints(self):
+        return sum(question.point for question in self.question_set.all())
 
 
 class Question(models.Model):
