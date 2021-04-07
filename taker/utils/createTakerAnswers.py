@@ -17,10 +17,8 @@ def createTakerAnswers(quiz, user, data):
             for a_number in range(1, len(question.choice_set.all()) + 1):
                 try:
                     if data[f'{q_number}_checkbox_{a_number}'] == 'on':
-                        answer = a_number
+                        CheckboxAnswer.objects.create(
+                            answer=a_number, user=user, question=question)
 
                 except KeyError:
-                    answer = None
-
-                CheckboxAnswer.objects.create(
-                    answer=answer, user=user, question=question)
+                    pass
