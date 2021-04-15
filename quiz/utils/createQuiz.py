@@ -1,5 +1,5 @@
 from datetime import datetime
-from quiz.models import Quiz, Question, Choice, McqAnswer, CheckboxAnswer
+from quiz.models import Quiz, Question, Choice, McqAnswer, CheckboxAnswer, ShortAnswer
 
 
 def createQuiz(data, user):
@@ -37,6 +37,31 @@ def createQuestions(data, quiz, startIdx):
             break
 
 
+def createAnswers(data, q_number, question):
+    answers = [t for t in data if len(
+        t.split('_')) == 3 and int(t.split('_')[0]) == q_number]
+
+    for answer in answers:
+        q_type = answer.split('_')[1]
+
+        if q_type == 'radio':
+            question.type = 'mcq'
+            createRadioAnswers(data, q_number, question)
+            break
+
+        elif q_type == 'checkbox':
+            question.type = 'checkbox'
+            createCheckboxAnswers(data, q_number, question)
+            break
+
+        elif q_type == 'short':
+            question.type = 'short'
+            createShortAnswers(data, q_number, question)
+            break
+
+    question.save()
+
+
 def createChoices(data, q_number, question):
     for c_number in range(1, len(data)):
         try:
@@ -46,16 +71,9 @@ def createChoices(data, q_number, question):
             break
 
 
-def createAnswers(data, q_number, question):
-    try:
-        McqAnswer.objects.create(
-            answer=data[f'{q_number}_radio_option'], question=question)
-
-        question.type = 'mcq'
-        question.save()
-
-    except KeyError:
-        createCheckboxAnswers(data, q_number, question)
+def createRadioAnswers(data, q_number, question):
+    McqAnswer.objects.create(
+        answer=data[f'{q_number}_radio_option'], question=question)
 
 
 def createCheckboxAnswers(data, q_number, question):
@@ -65,9 +83,16 @@ def createCheckboxAnswers(data, q_number, question):
                 CheckboxAnswer.objects.create(
                     answer=a_number, question=question)
 
-            question.type = 'checkbox'
-            question.save()
-
         except KeyError:
             # pass cuz if 1_checkbox_1 doesn't exist, still need to check for 1_checkbox_2
+            pass
+
+
+def createShortAnswers(data, q_number, question):
+    for a_number in range(1, len(data)):
+        try:
+            answer = data[f'{q_number}_short_{a_number}']
+            ShortAnswer.objects.create(answer=answer, question=question)
+
+        except KeyError:
             pass

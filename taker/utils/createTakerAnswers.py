@@ -1,4 +1,4 @@
-from taker.models import McqAnswer, CheckboxAnswer
+import taker.models as taker_models
 
 
 def createTakerAnswers(quiz, user, data):
@@ -10,15 +10,25 @@ def createTakerAnswers(quiz, user, data):
             except KeyError:
                 answer = None
 
-            McqAnswer.objects.create(
+            taker_models.McqAnswer.objects.create(
                 answer=answer, real_answer=question.mcqanswer, user=user, quiz=quiz)
 
         elif question.type == 'checkbox':
             for a_number in range(1, len(question.choice_set.all()) + 1):
                 try:
                     if data[f'{q_number}_checkbox_{a_number}'] == 'on':
-                        CheckboxAnswer.objects.create(
+                        taker_models.CheckboxAnswer.objects.create(
                             answer=a_number, user=user, question=question)
 
                 except KeyError:
                     pass
+
+        elif question.type == 'short':
+            try:
+                answer = data[f'{q_number}_short_1']
+
+            except KeyError:
+                answer = None
+
+            taker_models.ShortAnswer.objects.create(
+                answer=answer, user=user, question=question)

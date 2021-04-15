@@ -35,4 +35,15 @@
 
     {% endfor %}
 
+
+    {% if question.type == 'short' %}
+
+    <label class="quiz-form__ans">
+
+        <input type="text" name='{{forloop.counter}}_short_1' required>
+
+    </label>
+
+    {%endif%}
+
 </div>

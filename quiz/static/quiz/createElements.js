@@ -1,4 +1,17 @@
 function createQuestion(question_type, q_inp_value = null, r_inps_checked = null, o_inps_value = null, points_inp_value = 1, number_of_choices = 4) {
+    const { question, q_inp } = createQuestionLabelAndInput(q_inp_value)
+
+    createOptions(number_of_choices, question_type, r_inps_checked, o_inps_value, question)
+
+    createQuestionFooter(points_inp_value, question_type, question)
+
+    q_number++
+
+    q_inp.focus()
+    question.scrollIntoView()
+}
+
+function createQuestionLabelAndInput(q_inp_value) {
     const question = document.createElement('div')
     question.classList.add("question")
 
@@ -16,6 +29,16 @@ function createQuestion(question_type, q_inp_value = null, r_inps_checked = null
 
     question.appendChild(label)
     question.appendChild(q_inp)
+
+    return { question, q_inp }
+}
+
+function createOptions(number_of_choices, question_type, r_inps_checked, o_inps_value, question) {
+
+    if (question_type == 'short') {
+        createShortAnswerOption(question_type, number_of_choices, o_inps_value, question)
+        return
+    }
 
     for (let i = 1; i < number_of_choices + 1; i++) {
         div = document.createElement('div')
@@ -51,13 +74,37 @@ function createQuestion(question_type, q_inp_value = null, r_inps_checked = null
         if (o_inps_value != null) o_inp.value = o_inps_value[i - 1]
 
         div.appendChild(o_inp)
+
         div.appendChild(createDeleteChoiceSvg(question_type))
 
         question.appendChild(div)
     }
 
     question.appendChild(createAddChoiceDiv(question_type))
+}
 
+function createShortAnswerOption(question_type, number_of_choices, t_inps_value, question) {
+    for (let i = 1; i < number_of_choices + 1; i++) {
+        div = document.createElement('div')
+        div.classList.add('quiz-form__ans')
+
+        t_inp = document.createElement('input')
+        t_inp.type = 'text'
+        t_inp.name = `${q_number}_short_${i}`
+        t_inp.placeholder = `Answer ${i}`
+        t_inp.required = true
+        if (t_inps_value != null) t_inp.value = t_inps_value[i - 1]
+
+        div.appendChild(t_inp)
+
+        div.appendChild(createDeleteChoiceSvg(question_type))
+        question.appendChild(div)
+    }
+
+    question.appendChild(createAddChoiceDiv(question_type))
+}
+
+function createQuestionFooter(points_inp_value, question_type, question) {
     const footer = document.createElement('div')
     footer.classList.add('footer')
 
@@ -77,6 +124,16 @@ function createQuestion(question_type, q_inp_value = null, r_inps_checked = null
     point.appendChild(points_inp)
     point.appendChild(span)
 
+    createFooterButtons(question_type)
+
+    footer.appendChild(point)
+    footer.appendChild(div)
+    question.appendChild(footer)
+
+    form.appendChild(question)
+}
+
+function createFooterButtons(question_type) {
     div = document.createElement('div')
     div.classList.add('footerBtns')
 
@@ -93,6 +150,10 @@ function createQuestion(question_type, q_inp_value = null, r_inps_checked = null
         duplicateBtn.classList.add('checkboxDuplicateBtn')
         duplicateBtn.addEventListener('click', duplicateCheckboxQuestion)
     }
+    else if (question_type == 'short') {
+        duplicateBtn.classList.add('shortDuplicateBtn')
+        duplicateBtn.addEventListener('click', duplicateShortQuestion)
+    }
 
     const deleteBtn = document.createElement('button')
     deleteBtn.type = 'button'
@@ -102,21 +163,14 @@ function createQuestion(question_type, q_inp_value = null, r_inps_checked = null
 
     div.appendChild(duplicateBtn)
     div.appendChild(deleteBtn)
-    footer.appendChild(point)
-    footer.appendChild(div)
-    question.appendChild(footer)
-
-    form.appendChild(question)
-
-    q_number++
-
-    q_inp.focus()
-    question.scrollIntoView()
 }
+
 
 function createAddChoiceDiv(question_type) {
     const div = document.createElement('div')
     div.classList.add('quiz-form__ans')
+
+    if (question_type == 'short') return createAddShortAnswerDiv(div)
 
     if (question_type == 'mcq') {
         const r_inp = document.createElement('input')
@@ -156,6 +210,17 @@ function createAddChoiceDiv(question_type) {
     return div
 }
 
+function createAddShortAnswerDiv(div) {
+    const t_inp = document.createElement('input')
+    t_inp.type = 'text'
+    t_inp.placeholder = 'Add Answer'
+    t_inp.addEventListener('click', addShortChoice)
+    t_inp.addEventListener('input', addShortChoice)
+
+    div.appendChild(t_inp)
+    return div
+}
+
 function createDeleteChoiceSvg(question_type) {
     svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
     svg.setAttribute('width', '24')
@@ -167,6 +232,8 @@ function createDeleteChoiceSvg(question_type) {
         svg.addEventListener('click', deleteMcqChoice)
     else if (question_type == 'checkbox')
         svg.addEventListener('click', deleteCheckboxChoice)
+    else if (question_type == 'short')
+        svg.addEventListener('click', deleteShortChoice)
 
     path1 = document.createElementNS('http://www.w3.org/2000/svg', 'path')
     path1.setAttribute('d', 'M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z')

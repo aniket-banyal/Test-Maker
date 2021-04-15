@@ -1,9 +1,10 @@
 class TakerQuestion:
-    def __init__(self, question, point, type, choices=[]):
+    def __init__(self, question, point, type, choices=[], answer=None):
         self.question = question
         self.point = point
         self.type = type
         self.choices = choices
+        self.answer = answer
 
 
 class TakerChoice:
@@ -14,6 +15,12 @@ class TakerChoice:
         self.css_class = css_class
 
 
+class TakerShortAnswer:
+    def __init__(self, answer=None, isCorrect=False):
+        self.answer = answer
+        self.isCorrect = isCorrect
+
+
 def createTakerQuestionsList(questions, taker):
     t_questions = []
 
@@ -21,11 +28,40 @@ def createTakerQuestionsList(questions, taker):
         t_question = TakerQuestion(
             question.question, question.point, question.type)
 
-        t_question.choices = getTakerQuestionChoices(question, taker)
+        if t_question.type == 'short':
+            t_question.answer = getTakerShortAnswer(question, taker)
+
+        else:
+            t_question.choices = getTakerQuestionChoices(question, taker)
 
         t_questions.append(t_question)
 
     return t_questions
+
+
+def getTakerShortAnswer(question, taker):
+    answer = None
+    for shortAnswer in taker.shortanswer_set.all():
+        if shortAnswer.question == question:
+            answer = shortAnswer.answer
+            break
+
+    t_s_ans = TakerShortAnswer(answer=answer)
+
+    t_s_ans.isCorrect = getTakerShortAnswerIsCorrect(question, answer)
+
+    return t_s_ans
+
+
+def getTakerShortAnswerIsCorrect(question, answer):
+    if answer is None:
+        return False
+
+    real_answers = [real_answer.answer.lower().strip()
+                    for real_answer in question.shortanswer_set.all()]
+
+    answer = answer.lower().strip()
+    return answer in real_answers
 
 
 def getTakerQuestionChoices(question, taker):

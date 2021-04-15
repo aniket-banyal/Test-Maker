@@ -41,6 +41,10 @@
                     {% elif question.type == 'checkbox' %}
                     
                         {% include 'taker/checkbox.html' %}
+                    
+                    {% elif question.type == 'short' %}
+                    
+                        {% include 'taker/short.html' %}
 
                     {% endif %}
 

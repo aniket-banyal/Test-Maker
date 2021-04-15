@@ -19,6 +19,6 @@ saveBtn.onclick = () => { submitBtn.click() }
 
 addBtn.onclick = () => { createQuestion(question_type = 'mcq') }
 
-document.querySelector('#addMcq').addEventListener('click', e => createQuestion(question_type = 'mcq'))
-document.querySelector('#addCheckbox').addEventListener('click', e => createQuestion(question_type = 'checkbox'))
-
+document.querySelector('#addMcq').addEventListener('click', () => createQuestion(question_type = 'mcq'))
+document.querySelector('#addCheckbox').addEventListener('click', () => createQuestion(question_type = 'checkbox'))
+document.querySelector('#addShort').addEventListener('click', () => createQuestion(question_type = 'short'))

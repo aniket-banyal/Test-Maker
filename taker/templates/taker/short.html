@@ -1,0 +1,15 @@
+<label class="quiz-form__ans 
+{% if question.answer.isCorrect %} 
+correct
+{% else %}
+wrong
+{% endif %}">
+    <span class="text">{{question.answer.answer}}</span>
+    <span class='result'>
+        {% if question.answer.isCorrect %}
+        ✓
+        {% else %}
+        X
+        {% endif %}
+    </span>
+</label>

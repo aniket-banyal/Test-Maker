@@ -63,6 +63,9 @@ class QuestionManager(models.Manager):
     def checkbox_questions(self):
         return self.get_queryset().filter(type='checkbox')
 
+    def short_questions(self):
+        return self.get_queryset().filter(type='short')
+
 
 class Question(models.Model):
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
@@ -95,6 +98,14 @@ class McqAnswer(models.Model):
 class CheckboxAnswer(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     answer = models.IntegerField()
+
+    def __str__(self):
+        return str(self.answer)
+
+
+class ShortAnswer(models.Model):
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    answer = models.TextField()
 
     def __str__(self):
         return str(self.answer)
