@@ -1,5 +1,5 @@
 from datetime import datetime
-from quiz.models import Choice, CheckboxAnswer
+from quiz.models import Choice, CheckboxAnswer, ShortAnswer
 from quiz.utils.createQuiz import createQuestions
 
 
@@ -48,6 +48,9 @@ def updateQuizTimer(data, quiz):
 
 
 def updateChoices(data, question, q_number):
+    if question.type == 'short':
+        return updateShortAnswers(question, data, q_number)
+
     more_choices_left = True
     for c_number, choice in enumerate(question.choice_set.all(), start=1):
         try:
@@ -60,6 +63,32 @@ def updateChoices(data, question, q_number):
 
     if more_choices_left:
         addNewChoices(data, question, q_number, c_number + 1)
+
+
+def updateShortAnswers(question, data, q_number):
+    more_answers_left = True
+
+    for a_number, shortAnswer in enumerate(question.shortanswer_set.all(), start=1):
+        try:
+            shortAnswer.answer = data[f'{q_number}_short_{a_number}']
+            shortAnswer.save()
+
+        except KeyError:
+            shortAnswer.delete()
+            more_answers_left = False
+
+    if more_answers_left:
+        addNewShortAnswers(data, question, q_number, a_number + 1)
+
+
+def addNewShortAnswers(data, question, q_number, startIdx):
+    for a_number in range(startIdx, len(data)):
+        try:
+            ShortAnswer.objects.create(
+                answer=data[f'{q_number}_short_{a_number}'], question=question)
+
+        except KeyError:
+            break
 
 
 def updateAnswers(data, question, q_number):

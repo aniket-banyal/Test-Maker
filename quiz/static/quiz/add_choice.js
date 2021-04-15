@@ -14,12 +14,39 @@ document.querySelectorAll('.add_checkbox_choice').forEach(add_checkbox_choice_te
     add_choice_checkbox_inp.addEventListener('click', addCheckboxChoice)
 })
 
+document.querySelectorAll('.add_short_choice').forEach(add_short_choice_text_inp => {
+    add_short_choice_text_inp.addEventListener('click', addShortChoice)
+    add_short_choice_text_inp.addEventListener('input', addShortChoice)
+})
+
 function addMcqChoice(e) {
     _addChoice(e, question_type = 'mcq')
 }
 
 function addCheckboxChoice(e) {
     _addChoice(e, question_type = 'checkbox')
+}
+
+function addShortChoice(e) {
+    const add_choice_text_inp = e.target
+    const choice = add_choice_text_inp.parentElement
+
+    const question = choice.parentElement
+    const t_q_number = parseInt(question.querySelector('label').innerText)
+
+    const i = question.querySelectorAll('.quiz-form__ans').length
+
+    add_choice_text_inp.name = `${t_q_number}_short_${i}`
+    add_choice_text_inp.required = true
+    add_choice_text_inp.placeholder = `Answer ${i}`
+    add_choice_text_inp.classList.remove('add_short_choice')
+
+    add_choice_text_inp.removeEventListener('click', addShortChoice)
+    add_choice_text_inp.removeEventListener('input', addShortChoice)
+
+    choice.appendChild(createDeleteChoiceSvg(question_type = 'short'))
+
+    choice.insertAdjacentElement('afterend', createAddChoiceDiv(question_type = 'short'))
 }
 
 function _addChoice(e, question_type) {

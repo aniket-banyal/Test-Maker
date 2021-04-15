@@ -25,6 +25,11 @@ function deleteQuestion(e) {
         if (question.querySelectorAll('.quiz-form__ans input[type="checkbox"]').length > 0)
             question_type = 'checkbox'
 
+        if (question.querySelectorAll('.quiz-form__ans input[type="checkbox"]').length == 0 &&
+            question.querySelectorAll('.quiz-form__ans input[type="radio"]').length == 0) {
+            question_type = 'short'
+        }
+
         //options.length-1 cuz we don't want to modify the Add Option inputs
         for (i = 0; i < options.length - 1; i++) {
             option = options[i]
@@ -39,7 +44,12 @@ function deleteQuestion(e) {
             }
 
             o_inp = option.querySelector('input[type="text"]')
-            o_inp.name = `${q_number}_option${i + 1}`
+
+            if (question_type == 'short')
+                o_inp.name = `${q_number}_short_${i + 1}`
+
+            else
+                o_inp.name = `${q_number}_option${i + 1}`
         }
 
         points_inp = question.querySelector('.footer input[type="number"]')

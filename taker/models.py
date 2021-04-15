@@ -19,9 +19,13 @@ class Taker(models.Model):
 
         mcqScore = self._getMcqQuestionsScore()
         checkboxScore = self._getCheckboxQuestionsScore()
-        score = mcqScore + checkboxScore
+        shortScore = self._getShortQuestionsScore()
+        score = mcqScore + checkboxScore + shortScore
 
         return getFormattedScore(score, quizTotalPoints)
+
+    def _getShortQuestionsScore(self):
+        return sum(takerAnswer.getScore() for takerAnswer in self.shortanswer_set.all())
 
     def _getMcqQuestionsScore(self):
         return sum(takerAnswer.getScore() for takerAnswer in self.mcqanswer_set.all())
@@ -84,3 +88,25 @@ class CheckboxAnswer(models.Model):
 
     def __str__(self):
         return str(f'{self.answer} - {self.user}')
+
+
+class ShortAnswer(models.Model):
+    user = models.ForeignKey(Taker, on_delete=models.CASCADE)
+    question = models.ForeignKey(
+        quiz_models.Question, on_delete=models.CASCADE, related_name='+')
+    answer = models.TextField(null=True)
+
+    def __str__(self):
+        return str(f'{self.answer} - {self.user}')
+
+    def getScore(self):
+        real_answers = [real_answer.answer.lower().strip()
+                        for real_answer in self.question.shortanswer_set.all()]
+
+        if self.answer is None:
+            return 0
+
+        ans = self.answer.lower().strip()
+        if ans in real_answers:
+            return self.question.point
+        return 0

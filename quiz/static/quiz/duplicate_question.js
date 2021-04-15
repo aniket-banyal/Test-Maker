@@ -2,6 +2,9 @@ document.querySelectorAll('.mcqDuplicateBtn').forEach(duplicateBtn => duplicateB
 
 document.querySelectorAll('.checkboxDuplicateBtn').forEach(duplicateBtn => duplicateBtn.addEventListener('click', duplicateCheckboxQuestion))
 
+document.querySelectorAll('.shortDuplicateBtn').forEach(duplicateBtn => duplicateBtn.addEventListener('click', duplicateShortQuestion))
+
+
 function duplicateMcqQuestion(e) {
     _duplicateQuestion(e, question_type = 'mcq')
 }
@@ -9,6 +12,11 @@ function duplicateMcqQuestion(e) {
 
 function duplicateCheckboxQuestion(e) {
     _duplicateQuestion(e, question_type = 'checkbox')
+}
+
+
+function duplicateShortQuestion(e) {
+    _duplicateQuestion(e, question_type = 'short')
 }
 
 function _duplicateQuestion(e, question_type) {

@@ -33,6 +33,8 @@
                     mcqDuplicateBtn
                     {% elif question.type == 'checkbox' %}
                     checkboxDuplicateBtn
+                    {% elif question.type == 'short' %}
+                    shortDuplicateBtn
                     {% endif %}
                     ">Duplicate</button>
                     <button type="button" class='deleteBtn'>Delete</button>

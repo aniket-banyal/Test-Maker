@@ -38,6 +38,30 @@
 
 {% endfor %}
 
+{% if question.type == 'short' %}
+
+    {% for shortAnswer in question.shortanswer_set.all %}
+        
+        <div class="quiz-form__ans">
+
+            <input type="text" name='{{forloop.parentloop.counter}}_short_{{forloop.counter}}' 
+            value="{{shortAnswer.answer}}" required>
+
+            <svg fill="#5c626f" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+            viewBox="0 0 24 24"
+            class="delete_choice delete_short_choice">
+                <path
+                    d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z">
+                </path>
+                <path d="M0 0h24v24H0z" fill="none"></path>
+            </svg>
+
+        </div>
+
+    {% endfor %}
+    
+{%endif%}
+        
 {% if question.type == 'mcq' %}
 
     <div class="quiz-form__ans">
@@ -51,6 +75,12 @@
     <div class="quiz-form__ans">
         <input type="checkbox">
         <input type="text" class='add_checkbox_choice' placeholder="Add Option">
+    </div>
+
+{% elif question.type == 'short' %}
+
+    <div class="quiz-form__ans">
+        <input type="text" class='add_short_choice' placeholder="Add Answer">
     </div>
 
 {% endif %}
