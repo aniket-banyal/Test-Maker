@@ -27,9 +27,8 @@ SECRET_KEY = '@^c9-5-e^tds%&kyxrbd2d0jxll76@m^-8_5(-)m&=m!a!($32'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'ani-quiz-maker.herokuapp.com/'
+    'ani-quiz-maker.herokuapp.com'
 ]
-
 
 # Application definition
 
