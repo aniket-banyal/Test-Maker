@@ -29,7 +29,7 @@ def sendEmail(quiz, taker):
                   <body>
                     <p>
                        Check out the correct answers to the quiz - {quiz.name} <br>
-                       Here is the <a href='http://localhost:8000/take-quiz/{quiz.id}/{taker.id}/result/'>link</a>.
+                       Here is the <a href='https://ani-quiz-maker.herokuapp.com/take-quiz/{quiz.id}/{taker.id}/result/'>link</a>.
                     </p>
                   </body>
                 </html>

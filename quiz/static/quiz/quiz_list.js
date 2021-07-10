@@ -21,7 +21,7 @@ shareBtns.forEach(btn => {
         e.preventDefault()
         if (btn.getAttribute('data-timer-set') == 1) {
             const aux = document.createElement("input")
-            aux.setAttribute("value", `localhost:8000/take-quiz/${btn.getAttribute('data-value')}/register/`)
+            aux.setAttribute("value", `https://ani-quiz-maker.herokuapp.com/take-quiz/${btn.getAttribute('data-value')}/register/`)
             document.body.appendChild(aux)
             aux.select()
             document.execCommand("copy")
