@@ -135,4 +135,7 @@ LOGIN_REDIRECT_URL = 'quiz-list'
 
 LOGIN_URL = 'login'
 
+USE_TZ = True
+TIME_ZONE = 'Asia/Kolkata'
+
 django_heroku.settings(locals())
